@@ -11,11 +11,10 @@ use Modules\Catalog\Module as Catalog;
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
 
-define('BASE_URL','http://clothes');
+define('BASE_URL','http://clothes.dvl.to');
 
 
 try {
-
 
     $router = new AltoRouter();
 

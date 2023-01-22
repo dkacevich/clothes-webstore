@@ -7,10 +7,11 @@ use System\ModulesDispatcher;
 use System\Template;
 
 use Modules\Catalog\Module as Catalog;
+use Modules\Delivery\Module as Delivery;
 
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
-
+    
 define('BASE_URL','http://clothes.dvl.to');
 
 
@@ -20,6 +21,7 @@ try {
 
     $modules = new ModulesDispatcher();
     $modules->add(new Catalog());
+    $modules->add(new Delivery());
     $modules->registerRoutes($router);
 
     $match = $router->match();

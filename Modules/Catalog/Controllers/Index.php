@@ -9,8 +9,5 @@ class Index extends BaseController {
         $this->pageContent['title'] = 'Fashion';
         $this->pageContent['content'] = $this->view->render('Catalog/Views/v_catalog.twig');
         $this->pageContent['jquery'] = true;
-        echo "<pre>";
-        var_dump(BASE_URL . $_SERVER['REQUEST_URI']);
-        echo "</pre>";
     }
 }

@@ -9,10 +9,20 @@ use System\Template;
 use Modules\Catalog\Module as Catalog;
 use Modules\Delivery\Module as Delivery;
 
+use System\Database\Connection;
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
     
-define('BASE_URL','http://clothes.dvl.to');
+const BASE_URL = 'http://clothes.dvl.to';
+const DB_HOST = 'mysql';
+const DB_NAME = 'clothes';
+const DB_USER = 'root';
+const DB_PASS = '';
+
+
+$db = Connection::getInstance();
+
+var_dump($db);
 
 
 try {

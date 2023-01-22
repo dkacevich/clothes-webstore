@@ -23,12 +23,13 @@ class Template {
         $loader = new FilesystemLoader('Modules');
         $this->twig = new Environment($loader, [
             'cache' => 'cache/twig',
-            'auto_reload' => true
+            'auto_reload' => true,
+			'autoescape' => false
         ]);
     }
 
 
     public function render(string $pathToTemplate, array $vars = []) {
-        echo $this->twig->render($pathToTemplate, $vars);
+        return $this->twig->render($pathToTemplate, $vars);
     }
 }

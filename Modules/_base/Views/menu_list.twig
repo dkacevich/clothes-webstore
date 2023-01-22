@@ -1,0 +1,22 @@
+{% block menu_list %}
+
+	{% set urls = {
+        'Главная': '/',
+        'Новинки': '/catalog/new',
+        'Sale': '/catalog/sale',
+        'Доставка': '/delivery',
+    } %}
+
+
+	{% for title, url in urls %}
+		{% set linkUrl = constant('BASE_URL') ~ url %}
+		{% set className = 'main-menu__item' %}
+		{% if linkUrl == currentUrl %}
+			{% set className = className ~ ' active' %}
+		{% endif %}
+		<li>
+			<a class="{{ className }}" href="{{ linkUrl }}">{{ title }}</a>
+		</li>
+	{% endfor %}
+
+{% endblock %}

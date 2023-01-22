@@ -3,61 +3,53 @@
 	<head>
 		{% block head %}
 			<meta charset="utf-8">
-			<title>Fashion</title>
+			<title>{{ title }}</title>
 
 			<meta name="description" content="Fashion - интернет-магазин">
 			<meta name="keywords" content="Fashion, интернет-магазин, одежда, аксессуары">
 
 			<meta name="theme-color" content="#393939">
 
-			<link rel="preload" href="{{ constant('BASE_URL')}}assets/fonts/opensans-400-normal.woff2" as="font">
-			<link rel="preload" href="{{ constant('BASE_URL')}}assets/fonts/roboto-400-normal.woff2" as="font">
-			<link rel="preload" href="{{ constant('BASE_URL')}}assets/fonts/roboto-700-normal.woff2" as="font">
+			<link rel="preload" href="{{constant('BASE_URL')}}/assets/fonts/opensans-400-normal.woff2" as="font">
+			<link rel="preload" href="{{constant('BASE_URL')}}/assets/fonts/roboto-400-normal.woff2" as="font">
+			<link rel="preload" href="{{constant('BASE_URL')}}/assets/fonts/roboto-700-normal.woff2" as="font">
 
-			<link rel="icon" href="img/favicon.png">
-			<link rel="stylesheet" href="{{ constant('BASE_URL')}}assets/css/style.min.css">
+			<link rel="icon" href="{{constant('BASE_URL') }}assets/img/favicon.png">
+			<link rel="stylesheet" href="{{constant('BASE_URL')}}/assets/css/style.min.css">
 
+			{% if jquery %}
+				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			{% endif %}
 
-			<script src="{{ constant('BASE_URL')}}assets/js/scripts.js" defer=""></script>
+			<script src="{{constant('BASE_URL')}}/assets/js/scripts.js" defer=""></script>
 		{% endblock %}
 	</head>
 	<body>
 		<header class="page-header">
 			<a class="page-header__logo" href="#">
-				<img src="img/logo.svg" alt="Fashion">
+				<img src="{{constant('BASE_URL')}}/assets/img/logo.svg" alt="Fashion">
 			</a>
-			
+
 			<nav class="page-header__menu">
 				<ul class="main-menu main-menu--header">
-					{% block menu_list %}
-						<li>
-							<a class="main-menu__item" href="{{ constant('BASE_URL')}}">Главная</a>
-						</li>
+					{{ block("menu_list", "_base/Views/menu_list.twig") }}
 
-						<li>
-							<a class="main-menu__item" href="{{ constant('BASE_URL') ~ 'main?tags=new'}}">Новинки</a>
-						</li>
-						<li>
-							<a class="main-menu__item active" href="{{ constant('BASE_URL') ~ 'main?tags=sale'}}">Sale</a>
-						</li>
-						<li>
-							<a class="main-menu__item" href="{{ constant('BASE_URL') ~ 'delivery'}}">Доставка</a>
-						</li>
-					{% endblock %}
 				</ul>
 			</nav>
 		</header>
 
 		{{ content }}
 
+
 		<footer class="page-footer">
 			<div class="container">
 				<a class="page-footer__logo" href="#">
-					<img src="img/logo--footer.svg" alt="Fashion">
+					<img src="{{constant('BASE_URL')}}/assets/img/logo--footer.svg" alt="Fashion">
 				</a>
 				<nav class="page-footer__menu">
 					<ul class="main-menu main-menu--footer">
-						{{ block("menu_list") }}
+						{{ block("menu_list", "_base/Views/menu_list.twig") }}
 					</ul>
 				</nav>
 				<address class="page-footer__copyright">

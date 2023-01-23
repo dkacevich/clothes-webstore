@@ -18,6 +18,7 @@ Options -Indexes
 	Allow from all
 </FilesMatch>
 
-<FilesMatch "^FetchHandler.(php)$">
+
+<FilesMatch "^art-.+\.(php)$">
 	Allow from all
 </FilesMatch>

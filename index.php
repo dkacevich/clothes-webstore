@@ -14,8 +14,8 @@ use System\Database\Connection;
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
 
-const BASE_URL = 'http://clothes'; // http://clothes.dvl.to | http://clothes
-const DB_HOST = 'localhost'; // mysql | localhost
+const BASE_URL = 'http://clothes.dvl.to'; // http://clothes.dvl.to | http://clothes
+const DB_HOST = 'mysql'; // mysql | localhost
 const DB_NAME = 'clothes';
 const DB_USER = 'root';
 const DB_PASS = '';

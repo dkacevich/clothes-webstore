@@ -38,8 +38,12 @@ if (form) {
         e.preventDefault();
 
         // If errors already exist - remove them
-        const errors = document.querySelector('.form_errors');
-        if (errors) errors.remove()
+        const errors = document.querySelectorAll('.form_error');
+        if (errors.length) {
+            errors.forEach(elem => {
+                elem.remove();
+            });
+        }
 
         // Make Post Request
         const url = '/product/add'
@@ -49,7 +53,7 @@ if (form) {
 
         console.log(res);
         // Check result status
-        if (res[1].errors.length === 0) {
+        if (Object.keys(res.errors).length === 0) {
             // If ok ↓  
             form.reset();
             form.hidden = true;
@@ -59,14 +63,15 @@ if (form) {
 
         } else {
             // If some errors ↓
-            const errors = document.createElement('div');
-            errors.classList.add('form_errors');
+          
 
-            res.errors.forEach(error => {
-                errors.innerText += error;
-            });
-
-            form.appendChild(errors);
+            for (const key in res.errors) {
+                const error = document.createElement('div');
+                error.classList.add('form_error');
+                error.innerText = res.errors[key];
+                form.appendChild(error);
+            }
+            
         }
 
     })

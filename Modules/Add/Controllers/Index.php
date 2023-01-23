@@ -33,7 +33,6 @@ class Index extends BaseController {
             $res['errors'] = $errors;
         }
 
-        echo '<br>';
         echo json_encode($res);
 
         // echo json_encode([$_POST, $_FILES]);

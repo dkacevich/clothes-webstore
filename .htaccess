@@ -17,3 +17,7 @@ Options -Indexes
 <FilesMatch "^index.(php)$">
 	Allow from all
 </FilesMatch>
+
+<FilesMatch "^FetchHandler.(php)$">
+	Allow from all
+</FilesMatch>

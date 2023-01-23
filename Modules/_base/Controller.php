@@ -16,7 +16,6 @@ class Controller {
             'jquery' => false,
             'currentUrl' => BASE_URL . $_SERVER['REQUEST_URI']
         ];
-        // $this->pageContent['currentUrl'] = BASE_URL . $_SERVER['REQUEST_URI'];
     }
 
 

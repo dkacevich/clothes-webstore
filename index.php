@@ -8,64 +8,72 @@ use System\Template;
 
 use Modules\Catalog\Module as Catalog;
 use Modules\Delivery\Module as Delivery;
+use Modules\Add\Module as ProductAdd;
 
 use System\Database\Connection;
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
-    
-const BASE_URL = 'http://clothes.dvl.to';
-const DB_HOST = 'mysql';
+
+const BASE_URL = 'http://clothes'; // http://clothes.dvl.to | http://clothes
+const DB_HOST = 'localhost'; // mysql | localhost
 const DB_NAME = 'clothes';
 const DB_USER = 'root';
 const DB_PASS = '';
 
 
-$db = Connection::getInstance();
+// $db = Connection::getInstance();
 
-var_dump($db);
+// var_dump($db);
 
+$view = Template::getInstance();
 
 try {
-
+    // Import all Modules
     $router = new AltoRouter();
 
     $modules = new ModulesDispatcher();
     $modules->add(new Catalog());
     $modules->add(new Delivery());
+    $modules->add(new ProductAdd());
     $modules->registerRoutes($router);
 
     $match = $router->match();
 
-    
-      
-
+    // Check if URL is match some route
     if (!empty($match)) {
-
         list($controller, $action) = explode('#', $match['target']);
 
         if (method_exists($controller, $action)) {
             $obj = new $controller();
-            call_user_func_array([$obj, $action], [$match['params']]);
-            $htmlMarckup = $obj->render();
-            echo $htmlMarckup;
-        } else {
-            throw new Exc500('Error 500, don\'t worry we already working');
 
+            // Check if POST or GET route
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Give data response
+                call_user_func_array([$obj, $action], [$_POST]);
+            } else {
+                // Render HTML Template
+                call_user_func_array([$obj, $action], [$match['params']]);
+                $htmlMarckup = $obj->render();
+                echo $htmlMarckup;
+            }
+        } else {
+            // If there is no object method
+            throw new Exc500('Error 500, don\'t worry we already working');
         }
     } else {
+        // If URL is wrong
         throw new Exc404('404 Page not found');
     }
 
-
 } catch (Exc404 $e) {
     header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
-    echo Template::getInstance()->render('_base/Views/v_main.twig', [
+    echo $view->render('_base/Views/v_main.twig', [
         'title' => '404 Error',
         'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
     ]);
 } catch (Exc500 $e) {
     header($_SERVER["SERVER_PROTOCOL"] . ' 500 System error');
-    echo Template::getInstance()->render('_base/Views/v_main.twig', [
+    echo $view->render('_base/Views/v_main.twig', [
         'title' => '500 Error',
         'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
     ]);

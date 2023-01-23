@@ -23,7 +23,13 @@ const DB_PASS = '';
 
 // $db = Connection::getInstance();
 
-// var_dump($db);
+// ac name => dkatsevich4storage
+// email => d.katsevich.4@gmail.com
+// ID => 115884505569
+// CanonicalID => fde8aab872ab5b10106905231447594304089e2d22494066ed302f7018b2db0a
+
+// Access key => AKIARV62BHHQ4CNZMZSN
+// Secret Access key => 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
 
 $view = Template::getInstance();
 

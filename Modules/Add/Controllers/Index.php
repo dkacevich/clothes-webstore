@@ -2,6 +2,8 @@
 
 namespace Modules\Add\Controllers;
 
+use Aws\S3\Exception\S3Exception;
+use Exception;
 use Modules\_base\Controller as BaseController;
 use Modules\Add\Models\Index as Model;
 use System\Exceptions\ExcValidate;
@@ -31,7 +33,13 @@ class Index extends BaseController {
             $bag = $e->getBag();
             $errors = $bag->firstOfAll();
             $res['errors'] = $errors;
+        } catch (S3Exception $e) {
+            $res['errors'] = $e->getAwsErrorMessage();
         }
+        //  catch (Exception $e) {
+        //     echo $e->getMessage();
+        //     exit();
+        // }
 
         echo json_encode($res);
 

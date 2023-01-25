@@ -34,4 +34,8 @@ class Connection{
 
         return $query;
     }
+    
+    public function lastInsertId() : int{
+		return (int)$this->db->lastInsertId();
+	}
 }

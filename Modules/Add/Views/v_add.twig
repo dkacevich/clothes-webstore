@@ -7,13 +7,13 @@
 		<fieldset class="page-add__group custom-form__group">
 			<legend class="page-add__small-title custom-form__title">Данные о товаре</legend>
 			<label for="product-name" class="custom-form__input-wrapper page-add__first-wrapper">
-				<input  type="text" class="custom-form__input" name="product-name" id="product-name">
+				<input type="text" class="custom-form__input" name="name" id="product-name">
 				<p class="custom-form__input-label">
 					Название товара
 				</p>
 			</label>
 			<label for="product-price" class="custom-form__input-wrapper">
-				<input  type="text" class="custom-form__input" name="product-price" id="product-price">
+				<input type="text" class="custom-form__input" name="price" id="product-price">
 				<p class="custom-form__input-label">
 					Цена товара
 				</p>
@@ -23,7 +23,7 @@
 			<legend class="page-add__small-title custom-form__title">Фотография товара</legend>
 			<ul class="add-list">
 				<li class="add-list__item add-list__item--add">
-					<input type="file" name="product-photo" id="product-photo" hidden="">
+					<input type="file" name="image" id="product-photo" hidden="">
 					<label for="product-photo">Добавить фотографию</label>
 				</li>
 			</ul>
@@ -31,18 +31,17 @@
 		<fieldset class="page-add__group custom-form__group">
 			<legend class="page-add__small-title custom-form__title">Раздел</legend>
 			<div class="page-add__select">
-				<select name="category" class="custom-form__select" multiple="multiple">
+				<select name="id_category" class="custom-form__select" multiple="multiple">
 					<option hidden="">Название раздела</option>
-					<option value="female">Женщины</option>
-					<option value="male">Мужчины</option>
-					<option value="children">Дети</option>
-					<option value="access">Аксессуары</option>
+					{% for category in categories %}
+						<option value="{{ category.id_category }}">{{ category.name }}</option>
+					{% endfor %}
 				</select>
 			</div>
-			<input type="checkbox" name="new" id="new" class="custom-form__checkbox">
-			<label for="new" class="custom-form__checkbox-label">Новинка</label>
-			<input type="checkbox" name="sale" id="sale" class="custom-form__checkbox">
-			<label for="sale" class="custom-form__checkbox-label">Распродажа</label>
+			{% for tag in tags %}
+				<input type="checkbox" name="tag[{{tag.id_tag}}]" value="{{tag.id_tag}}" id="{{ tag.label }}" class="custom-form__checkbox">
+				<label for="{{ tag.label }}" class="custom-form__checkbox-label">{{ tag.name }}</label>
+			{% endfor %}
 		</fieldset>
 		<button class="button" type="submit">Добавить товар</button>
 		<span class="erorrs"></span>

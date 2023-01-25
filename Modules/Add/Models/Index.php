@@ -2,27 +2,31 @@
 
 namespace Modules\Add\Models;
 
-use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 use Rakit\Validation\Validator;
+use System\ArrayHelper;
+use System\Database\Connection;
 use System\Exceptions\ExcValidate;
 
 class Index {
     protected Validator $validator;
+    protected Connection $db;
     protected array $validateRules = [
-        'product-name' => 'required|min:2',
-        'product-price' => 'required|numeric',
-        'product-photo' => 'uploaded_file|max:5M|mimes:jpeg,png',
+        'name' => 'required|min:2',
+        'price' => 'required|numeric',
+        'image' => 'uploaded_file|max:5M|mimes:jpeg,png',
     ];
 
     protected string $bucket = 'phpclothes';
     protected string $region = 'eu-central-1';
 
     protected array $config;
+    protected string $table = 'products';
 
-    public function __construct() {
+    public function __construct(Connection $db) {
         // TODO Dependency injection
         $this->validator = new Validator();
+        $this->db = $db;
         $this->config = [
             'region' => $this->region,
             'version' => 'latest',
@@ -41,19 +45,70 @@ class Index {
         }
 
         // Check if photo was sent
-        if ($fields['product-photo']['error'] === 0) {
-            // var_dump($fields['product-photo']);
-            $this->uploadImage($fields['product-photo']);
+        if ($fields['image']['error'] === 0) {
+            $fields['image'] = $this->uploadImage($fields['image']);
+        } else {
+            $fields['image'] = null;
+        }
+
+        // Check if category was choosen
+        if (!isset($fields['id_category'])) {
+            $fields['id_category'] = null;
+        }
+
+
+        $namesArr = [];
+        $masksArr = [];
+
+        foreach ($fields as $name => $value) {
+            if ($name !== 'tag') {
+                $namesArr[] = $name;
+                $masksArr[] = ":$name";
+            }
+        }
+
+
+        $names = implode(', ', $namesArr);
+        $masks = implode(', ', $masksArr);
+
+        $query = "INSERT INTO {$this->table} ($names) VALUES ($masks)";
+
+
+        $params = ArrayHelper::extractFields($fields, ['name', 'price', 'image', 'id_category']);
+        $this->db->query($query, $params);
+
+        
+
+        // Save tags to separate DB
+        if (!empty($fields['tag'])) {
+            $productId = $this->db->lastInsertId();
+            foreach ($fields['tag'] as $tag) {
+                $query = "INSERT INTO tags_products (id_tag, id_product) VALUES (:id_tag, :id_product)";
+                $this->db->query($query, ['id_tag' => $tag, 'id_product' => $productId]);
+            }
         }
     }
 
-    protected function uploadImage(mixed $img) {
+
+
+
+    public function getCategories(): array {
+        $query = "SELECT * FROM categories";
+        return $this->db->select($query);
+    }
+
+    public function getTags(): array {
+        $query = "SELECT * FROM tags";
+        return $this->db->select($query);
+    }
+
+    protected function uploadImage(mixed $img): string {
         $s3 = new S3Client($this->config);
 
+        // Make random img name
         $ext = preg_replace('/^.+\./', '', $img['name']);
         $key = bin2hex(random_bytes(30)) . ".$ext";
 
-        // TODO Url for DataBase;
         $url = "https://{$this->bucket}.{$this->region}.amazonaws.com/$key";
 
         $s3->putObject([
@@ -62,6 +117,8 @@ class Index {
             'Body'   => fopen($img["tmp_name"], 'r'),
             'ACL'    => 'public-read',
         ]);
+
+        // If error will happen, S3Client throw new Error
 
         return $url;
     }

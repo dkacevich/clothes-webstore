@@ -109,9 +109,8 @@ class Index {
         $ext = preg_replace('/^.+\./', '', $img['name']);
         $key = bin2hex(random_bytes(30)) . ".$ext";
 
-        $url = "https://{$this->bucket}.{$this->region}.amazonaws.com/$key";
 
-        $s3->putObject([
+        $res = $s3->putObject([
             'Bucket' => $this->bucket,
             'Key'    => $key,
             'Body'   => fopen($img["tmp_name"], 'r'),
@@ -120,6 +119,6 @@ class Index {
 
         // If error will happen, S3Client throw new Error
 
-        return $url;
+        return $res['ObjectURL'];
     }
 }

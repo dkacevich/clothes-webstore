@@ -14,8 +14,8 @@ use System\Database\Connection;
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
 
-const BASE_URL = 'http://clothes.dvl.to'; // http://clothes.dvl.to | http://clothes
-const DB_HOST = 'mysql'; // mysql | localhost
+const BASE_URL = 'http://clothes'; // http://clothes.dvl.to | http://clothes
+const DB_HOST = 'localhost'; // mysql | localhost
 const DB_NAME = 'clothes';
 const DB_USER = 'root';
 const DB_PASS = '';
@@ -23,13 +23,7 @@ const DB_PASS = '';
 
 // $db = Connection::getInstance();
 
-// ac name => dkatsevich4storage
-// email => d.katsevich.4@gmail.com
-// ID => 115884505569
-// CanonicalID => fde8aab872ab5b10106905231447594304089e2d22494066ed302f7018b2db0a
 
-// Access key => AKIARV62BHHQ4CNZMZSN
-// Secret Access key => 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
 
 $view = Template::getInstance();
 

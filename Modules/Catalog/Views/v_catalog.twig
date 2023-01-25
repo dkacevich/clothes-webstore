@@ -71,7 +71,16 @@
 					моделей</p>
 			</section>
 			<section class="shop__list">
-				<article class="shop__item product" tabindex="0">
+				{% for product in products %}
+					<article class="shop__item product" tabindex="0">
+						<div class="product__image">
+							<img src="{{ product.image }}" alt="product-name">
+						</div>
+						<p class="product__name">{{ product.name }}</p>
+						<span class="product__price">{{ product.price }} $</span>
+					</article>
+				{% endfor %}
+				{# <article class="shop__item product" tabindex="0">
 					<div class="product__image">
 						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-1.jpg" alt="product-name">
 					</div>
@@ -133,7 +142,7 @@
 					</div>
 					<p class="product__name">Платье со складками</p>
 					<span class="product__price">2 999 руб.</span>
-				</article>
+				</article> #}
 			</section>
 			<ul class="shop__paginator paginator">
 				<li>

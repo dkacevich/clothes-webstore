@@ -10,10 +10,7 @@ class Module implements IModule{
 	public function registerRoutes(AltoRouter $router) : void {
 
         $router->addRoutes([
-            ['GET', '/',  C::class . "#index"],
             ['GET', '/catalog',  C::class . "#index"],
-            ['GET', '/catalog/new',  C::class . "#index"],
-            ['GET', '/catalog/sale',  C::class . "#index"],
         ]);
     
 	}

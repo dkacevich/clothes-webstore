@@ -4,6 +4,7 @@ namespace Modules\Catalog\Controllers;
 
 use Modules\_base\Controller as BaseController;
 use Modules\Catalog\Models\Index as Model;
+use System\ArrayHelper;
 use System\Database\Connection;
 
 class Index extends BaseController {
@@ -20,11 +21,19 @@ class Index extends BaseController {
     public function index() {
         $this->pageContent['title'] = 'Fashion';
         $this->pageContent['content'] = $this->view->render('Catalog/Views/v_catalog.twig', [
-            'products' => $this->model->getProducts()
+            'products' => $this->model->getProducts(),
+            'pages' => range(1, ceil($this->model->cnt / Model::LIMIT), 1),
+            // 'current' => $_GET['page'],
+            'baseUrl' => BASE_URL . '/catalog',
+            'count' => $this->model->cnt,
+            'categories' => $this->model->getCategories(),
+            'tags' => $this->model->getTags()
         ]);
         $this->pageContent['jquery'] = true;
+
+
         echo "<pre>";
-        print_r($this->model->getProducts());
+        var_dump($_GET);
         echo "</pre>";
     }
 }

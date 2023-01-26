@@ -84,3 +84,22 @@ if (form) {
     })
 }
 
+
+///////////////////////////////////////////////////////////////////////
+
+
+const paginatorItems = document.querySelectorAll('.paginator__item');
+
+if (paginatorItems.length) {
+
+    paginatorItems.forEach(paginatorItem => {
+        
+        paginatorItem.addEventListener('click', (e) => {
+            const target = e.target;
+            const linkedPage = target.getAttribute('data-page');
+            console.log(linkedPage);
+        })
+
+    });
+
+}

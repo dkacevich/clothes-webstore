@@ -11,21 +11,11 @@
 				<div class="filter__wrapper">
 					<b class="filter__title">Категории</b>
 					<ul class="filter__list">
-						<li>
-							<a class="filter__list-item active" href="#">Все</a>
-						</li>
-						<li>
-							<a class="filter__list-item" href="#">Женщины</a>
-						</li>
-						<li>
-							<a class="filter__list-item" href="#">Мужчины</a>
-						</li>
-						<li>
-							<a class="filter__list-item" href="#">Дети</a>
-						</li>
-						<li>
-							<a class="filter__list-item" href="#">Аксессуары</a>
-						</li>
+						{% for category in categories %}
+							<li>
+								<a class="filter__list-item" href="?cat={{  category.label   }}">{{ category.name }}</a>
+							</li>
+						{% endfor %}
 					</ul>
 				</div>
 				<div class="filter__wrapper">
@@ -67,7 +57,7 @@
 					</select>
 				</div>
 				<p class="shop__sorting-res">Найдено
-					<span class="res-sort">858</span>
+					<span class="res-sort">{{ count }}</span>
 					моделей</p>
 			</section>
 			<section class="shop__list">
@@ -80,77 +70,17 @@
 						<span class="product__price">{{ product.price }} $</span>
 					</article>
 				{% endfor %}
-				{# <article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-1.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-2.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-3.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-4.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-5.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-6.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-7.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-8.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article>
-				<article class="shop__item product" tabindex="0">
-					<div class="product__image">
-						<img src="{{ constant('BASE_URL')}}/assets/img/products/product-9.jpg" alt="product-name">
-					</div>
-					<p class="product__name">Платье со складками</p>
-					<span class="product__price">2 999 руб.</span>
-				</article> #}
 			</section>
 			<ul class="shop__paginator paginator">
-				<li>
-					<a class="paginator__item">1</a>
-				</li>
-				<li>
-					<a class="paginator__item" href="">2</a>
-				</li>
+				{% for page in pages %}
+					<li>
+						<a data-page="{{ page }}"
+							{% if url %}
+								href="" 
+							{% endif %}
+						class="paginator__item">{{ page }}</a>
+					</li>
+				{% endfor %}
 			</ul>
 		</div>
 	</section>

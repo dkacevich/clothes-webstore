@@ -3,14 +3,14 @@
 namespace Modules\Add\Models;
 
 use Aws\S3\S3Client;
+use Modules\_base\Model as BaseModel;
 use Rakit\Validation\Validator;
 use System\ArrayHelper;
 use System\Database\Connection;
 use System\Exceptions\ExcValidate;
 
-class Index {
+class Index extends BaseModel {
     protected Validator $validator;
-    protected Connection $db;
     protected array $validateRules = [
         'name' => 'required|min:2',
         'price' => 'required|numeric',
@@ -24,9 +24,8 @@ class Index {
     protected string $table = 'products';
 
     public function __construct(Connection $db) {
-        // TODO Dependency injection
+        parent::__construct($db);
         $this->validator = new Validator();
-        $this->db = $db;
         $this->config = [
             'region' => $this->region,
             'version' => 'latest',
@@ -89,18 +88,7 @@ class Index {
         }
     }
 
-
-
-
-    public function getCategories(): array {
-        $query = "SELECT * FROM categories";
-        return $this->db->select($query);
-    }
-
-    public function getTags(): array {
-        $query = "SELECT * FROM tags";
-        return $this->db->select($query);
-    }
+    
 
     protected function uploadImage(mixed $img): string {
         $s3 = new S3Client($this->config);

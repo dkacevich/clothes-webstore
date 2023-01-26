@@ -63,7 +63,7 @@ if (form) {
 
         } else {
             // If some errors ↓
-          
+
 
             for (const key in res.errors) {
                 const error = document.createElement('div');
@@ -71,7 +71,7 @@ if (form) {
                 error.innerText = res.errors[key];
                 form.appendChild(error);
             }
-            
+
         }
 
     })
@@ -88,12 +88,88 @@ if (form) {
 ///////////////////////////////////////////////////////////////////////
 
 
+const filterForm = document.querySelector('#product-filter-form');
+
+
+
+if (filterForm) {
+
+    filterForm.addEventListener('submit', async (e) => {
+        // e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        const url = '/catalog?jfaf=wrjwjrjioworijiowr'
+
+        const formProps = Object.fromEntries(formData);
+        console.log(formProps);
+
+        fetch(url);
+        // fetch(url, {
+        //     body: formData,
+        // }).then(res => res.json()).then(res => console.log(res))
+        // const res = await postData({ url, data: formData })
+
+
+    })
+
+}
+
+
+
+
+
+
+
+
+
+// jquery range maxmin
+if (document.querySelector('.shop-page')) {
+
+    const min = $('.min-price').data('start');
+    const max = $('.max-price').data('start');
+
+
+    $('.range__line').slider({
+        min,
+        max,
+        values: [min, max],
+        range: true,
+        slide: setRangeValues
+    });
+}
+
+
+function setRangeValues(event, ui) {
+    let minValue = ui.values[0];
+    let maxValue = ui.values[1];
+
+    $('.min-price').text(minValue + ' $');
+    $('.max-price').text(maxValue + ' $');
+
+    $('#rng-min').val(minValue);
+    $('#rng-max').val(maxValue);
+}
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+
+
 const paginatorItems = document.querySelectorAll('.paginator__item');
 
 if (paginatorItems.length) {
 
     paginatorItems.forEach(paginatorItem => {
-        
+
         paginatorItem.addEventListener('click', (e) => {
             const target = e.target;
             const linkedPage = target.getAttribute('data-page');
@@ -101,5 +177,6 @@ if (paginatorItems.length) {
         })
 
     });
-
 }
+
+

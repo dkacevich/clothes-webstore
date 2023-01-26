@@ -7,15 +7,24 @@
 	</header>
 	<section class="shop container">
 		<section class="shop__filter filter">
-			<form>
+			<form id='product-filter-form'>
 				<div class="filter__wrapper">
 					<b class="filter__title">Категории</b>
 					<ul class="filter__list">
 						{% for category in categories %}
 							<li>
-								<a class="filter__list-item" href="?cat={{  category.label   }}">{{ category.name }}</a>
+								<label class='filter__list-item'>
+									<input type="radio" name="id_category" value="{{ category.id_category }}">
+									<span>{{ category.name }}</span>
+								</label>
 							</li>
 						{% endfor %}
+						<li>
+							<label class='filter__list-item'>
+								<input type="radio" name="id_category" value="*">
+								<span>Все категории</span>
+							</label>
+						</li>
 					</ul>
 				</div>
 				<div class="filter__wrapper">
@@ -24,17 +33,23 @@
 						<span class="range__info">Цена</span>
 						<div class="range__line" aria-label="Range Line"></div>
 						<div class="range__res">
-							<span class="range__res-item min-price">350 руб.</span>
-							<span class="range__res-item max-price">32 000 руб.</span>
+						
+							{% for key,range in priceRange %}
+								<span data-start='{{  range  }}' data-value='{{  range  }}' class="range__res-item {{key}}-price">{{ range }} $</span>
+							{% endfor %}
+
+							<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{priceRange['min']}}" name="range[min]" class='input-range'  id="rng-min">
+							<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{priceRange['max']}}" name="range[max]" class='input-range'  id="rng-max">
 						</div>
 					</div>
 				</div>
 
 				<fieldset class="custom-form__group">
-					<input type="checkbox" name="new" id="new" class="custom-form__checkbox">
-					<label for="new" class="custom-form__checkbox-label custom-form__info" style="display: block;">Новинка</label>
-					<input type="checkbox" name="sale" id="sale" class="custom-form__checkbox">
-					<label for="sale" class="custom-form__checkbox-label custom-form__info" style="display: block;">Распродажа</label>
+					{% for tag in tags %}
+						<input type="checkbox" name="tag[{{tag.id_tag}}]" id="{{ tag.label }}" class="custom-form__checkbox">
+						<label for="{{ tag.label }}" class="custom-form__checkbox-label custom-form__info" style="display: block;">{{ tag.name }}</label>
+					{% endfor %}
+
 				</fieldset>
 				<button class="button" type="submit" style="width: 100%">Применить</button>
 			</form>
@@ -67,18 +82,15 @@
 							<img src="{{ product.image }}" alt="product-name">
 						</div>
 						<p class="product__name">{{ product.name }}</p>
-						<span class="product__price">{{ product.price }} $</span>
+						<span class="product__price">{{ product.price }}
+							$</span>
 					</article>
 				{% endfor %}
 			</section>
 			<ul class="shop__paginator paginator">
 				{% for page in pages %}
 					<li>
-						<a data-page="{{ page }}"
-							{% if url %}
-								href="" 
-							{% endif %}
-						class="paginator__item">{{ page }}</a>
+						<a data-page="{{ page }}" {% if url %} href="" {% endif %} class="paginator__item">{{ page }}</a>
 					</li>
 				{% endfor %}
 			</ul>

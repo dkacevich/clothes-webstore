@@ -1288,3 +1288,8 @@ a:focus {
   font-size: 20px;
   margin: 10px 0;
 }
+
+
+.input-range {
+  display: none;
+}

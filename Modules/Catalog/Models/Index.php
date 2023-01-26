@@ -27,6 +27,10 @@ class Index extends BaseModel {
         return $this->db->select($query)[0]["COUNT(*)"];
     }
 
+    public function getPriceRange() {
+        $query = "SELECT MIN(price) AS min, MAX(price) AS max FROM {$this->table}";
+        return $this->db->select($query)[0];
+    }
 
     public function getProducts(): array {
 

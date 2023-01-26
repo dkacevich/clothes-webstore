@@ -81,26 +81,20 @@ const toggleDelivery = (elem) => {
 const filterWrapper = document.querySelector('.filter__list');
 if (filterWrapper) {
 
-	filterWrapper.addEventListener('click', evt => {
+	// const filterList = filterWrapper.querySelectorAll('.filter__list-item input');
 
-		const filterList = filterWrapper.querySelectorAll('.filter__list-item');
+	// if (filterList.length) {
 
-		filterList.forEach(filter => {
+	// 	filterList.forEach(filter => {
 
-			if (filter.classList.contains('active')) {
-
-				filter.classList.remove('active');
-
-			}
-
-		});
-
-		const filter = evt.target;
-
-		filter.classList.add('active');
-
-	});
-
+	// 		filter.addEventListener('click', (e) => {
+	// 			filterList.forEach(el => el.classList.remove('active'));
+	// 			filter.classList.add('active');
+	// 		})
+	
+	// 	});
+	
+	// }
 }
 
 const shopList = document.querySelector('.shop__list');
@@ -290,26 +284,4 @@ if (productsList) {
 
 }
 
-// jquery range maxmin
-if (document.querySelector('.shop-page')) {
 
-	$('.range__line').slider({
-		min: 350,
-		max: 32000,
-		values: [350, 32000],
-		range: true,
-		stop: function (event, ui) {
-
-			$('.min-price').text($('.range__line').slider('values', 0) + ' руб.');
-			$('.max-price').text($('.range__line').slider('values', 1) + ' руб.');
-
-		},
-		slide: function (event, ui) {
-
-			$('.min-price').text($('.range__line').slider('values', 0) + ' руб.');
-			$('.max-price').text($('.range__line').slider('values', 1) + ' руб.');
-
-		}
-	});
-
-}

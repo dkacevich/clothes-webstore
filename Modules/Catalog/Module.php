@@ -11,6 +11,7 @@ class Module implements IModule{
 
         $router->addRoutes([
             ['GET', '/catalog',  C::class . "#index"],
+            ['POST', '/catalog',  C::class . "#index"],
         ]);
     
 	}

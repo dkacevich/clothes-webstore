@@ -23,11 +23,11 @@ class Index extends BaseController {
         $this->pageContent['content'] = $this->view->render('Catalog/Views/v_catalog.twig', [
             'products' => $this->model->getProducts(),
             'pages' => range(1, ceil($this->model->cnt / Model::LIMIT), 1),
-            // 'current' => $_GET['page'],
             'baseUrl' => BASE_URL . '/catalog',
             'count' => $this->model->cnt,
             'categories' => $this->model->getCategories(),
-            'tags' => $this->model->getTags()
+            'tags' => $this->model->getTags(),
+            'priceRange' => $this->model->getPriceRange(),
         ]);
         $this->pageContent['jquery'] = true;
 
@@ -35,5 +35,6 @@ class Index extends BaseController {
         echo "<pre>";
         var_dump($_GET);
         echo "</pre>";
+        echo json_encode($_POST);
     }
 }

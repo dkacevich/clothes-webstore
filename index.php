@@ -77,4 +77,9 @@ try {
         'title' => '500 Error',
         'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
     ]);
+} catch (Exception $e) {
+    echo $view->render('_base/Views/v_main.twig', [
+        'title' => 'Error',
+        'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
+    ]);
 }

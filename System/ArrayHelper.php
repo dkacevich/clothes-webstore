@@ -28,4 +28,23 @@ class ArrayHelper {
 
 		return $res;
 	}
+
+
+    public static function htmlChars(array $array) : array {
+        $res = [];
+
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $res[$key] = self::htmlChars($value);
+                continue;
+            }
+
+            $safeKey = htmlspecialchars($key);
+            $safeValue = htmlspecialchars($value);
+
+            $res[$safeKey] = $safeValue;
+        }
+
+        return $res;
+    }
 }

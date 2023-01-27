@@ -21,7 +21,7 @@ class Index extends BaseController {
     public function index() {
         $this->pageContent['title'] = 'Fashion';
         $this->pageContent['content'] = $this->view->render('Catalog/Views/v_catalog.twig', [
-            'products' => $this->model->getProducts(),
+            'products' => $this->model->getProducts($_GET),
             'pages' => range(1, ceil($this->model->cnt / Model::LIMIT), 1),
             'baseUrl' => BASE_URL . '/catalog',
             'count' => $this->model->cnt,
@@ -32,9 +32,5 @@ class Index extends BaseController {
         $this->pageContent['jquery'] = true;
 
 
-        echo "<pre>";
-        var_dump($_GET);
-        echo "</pre>";
-        echo json_encode($_POST);
     }
 }

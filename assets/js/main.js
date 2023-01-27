@@ -97,14 +97,14 @@ if (filterForm) {
     filterForm.addEventListener('submit', async (e) => {
         // e.preventDefault();
 
-        const formData = new FormData(e.target);
+        // const formData = new FormData(e.target);
 
-        const url = '/catalog?jfaf=wrjwjrjioworijiowr'
+        // const url = '/catalog?jfaf=wrjwjrjioworijiowr'
 
-        const formProps = Object.fromEntries(formData);
-        console.log(formProps);
+        // const formProps = Object.fromEntries(formData);
+        // console.log(formProps);
 
-        fetch(url);
+        // fetch(url);
         // fetch(url, {
         //     body: formData,
         // }).then(res => res.json()).then(res => console.log(res))

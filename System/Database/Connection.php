@@ -2,6 +2,7 @@
 
 namespace System\Database;
 
+use Exception;
 use PDO;
 use PDOStatement;
 
@@ -31,6 +32,13 @@ class Connection{
     public function query(string $query, array $params = []) : PDOStatement {
         $query = $this->db->prepare($query);
         $query->execute($params);
+
+        $errorInfo = $query->errorInfo();
+
+        if ($errorInfo[0] !== PDO::ERR_NONE) {
+            throw new Exception("SQL Error {$errorInfo[2]}");
+            
+        }
 
         return $query;
     }

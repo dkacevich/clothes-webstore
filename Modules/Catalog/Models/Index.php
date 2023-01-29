@@ -42,4 +42,14 @@ class Index extends BaseModel {
 
         return $arr;
     }
+
+    public function checkURI(string $uri) : string {
+        if (preg_match('/\?/', $uri)) {
+            if (!preg_match('/&*page=\d/', $uri)) $uri .= '&page=1';
+        } else {
+            if (!preg_match('/&page=\d/', $uri)) $uri .= '?page=1';
+        }
+        
+        return $uri;
+    }
 }

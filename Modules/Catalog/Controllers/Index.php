@@ -26,7 +26,7 @@ class Index extends BaseController {
             'count' => $this->model->cnt,
             'categories' => $this->model->getCategories(),
             'tags' => $this->model->getTags(),
-            'currentURL' => $_SERVER['REQUEST_URI']
+            'currentURL' => $this->model->checkURI($_SERVER['REQUEST_URI'])
 
         ]);
         $this->pageContent['jquery'] = true;

@@ -60,7 +60,22 @@ class Pagination {
 
 
     public function setLink(string $page) : string {
-        $link = $this->uri . "page=$page";
+        $link = null;
+
+         if ($page == 1) {
+            $link = rtrim($this->uri, '?&');
+        }
+
+        if (str_contains($this->uri, '&')) {
+            $link = "{$this->uri}page={$page}";
+        } else {
+            if (str_contains($this->uri, '?')) {
+                $link = "{$this->uri}page={$page}";
+            } else {
+                $link = "{$this->uri}?page={$page}";
+            }
+        }
+
         return $link;
     }
 

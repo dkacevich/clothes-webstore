@@ -97,7 +97,6 @@
 				<ul class="shop__paginator paginator">
 					{% for key, page in pages %}
 						{% if page %}
-
 							<li>
 								<a href="{{page}}" class="paginator__item {% if page == currentURL %} active {% endif %}">{{ key }}</a>
 							</li>

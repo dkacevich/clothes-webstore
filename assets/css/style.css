@@ -1293,3 +1293,12 @@ a:focus {
 .input-range {
   display: none;
 }
+
+
+.shop__form {
+  display: flex;
+}
+
+.shop__btn {
+  width: 200px;
+}

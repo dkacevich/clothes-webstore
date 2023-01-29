@@ -115,7 +115,14 @@ if (filterForm) {
 
 }
 
+// Sorting View
+const sortFilter = document.querySelector('#sort-filter');
 
+if (sortFilter) {
+    sortFilter.addEventListener('change', (e) => {
+        window.location =  window.location.pathname + '?' + e.target.name + '=' + e.target.value;
+    })
+}
 
 
 

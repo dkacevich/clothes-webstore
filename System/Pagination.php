@@ -20,7 +20,7 @@ class Pagination {
 
     }
 
-    public function setOffet() : int {
+    public function setOffset() : int {
         return ($this->page - 1) * $this->limit;
     }
 

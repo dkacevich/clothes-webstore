@@ -22,11 +22,12 @@ class Index extends BaseController {
         $this->pageContent['title'] = 'Fashion';
         $this->pageContent['content'] = $this->view->render('Catalog/Views/v_catalog.twig', [
             'pages' => $this->model->getPagination($_GET['page'] ?? 1),
-            'products' => $this->model->getProducts($_GET),
+            'products' => $this->model->getProducts(['sort' => $_GET['sort'] ?? null]),
             'count' => $this->model->cnt,
             'categories' => $this->model->getCategories(),
             'tags' => $this->model->getTags(),
-            'currentURL' => $this->model->checkURI($_SERVER['REQUEST_URI'])
+            'currentURL' => $this->model->checkURI($_SERVER['REQUEST_URI']),
+            'selectedSort' => $_GET['sort'] ?? null
 
         ]);
         $this->pageContent['jquery'] = true;

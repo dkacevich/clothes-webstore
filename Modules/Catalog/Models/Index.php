@@ -9,7 +9,7 @@ use RedBeanPHP\R;
 use System\Pagination;
 
 class Index extends BaseModel {
-    const LIMIT = 1;
+    const LIMIT = 3;
     protected int $offset = 0;
     public int $cnt;
 
@@ -32,19 +32,35 @@ class Index extends BaseModel {
 
     public function getPagination(int $page) : array {
         $pagination = new Pagination($page, self::LIMIT, $this->cnt);
-        $this->offset = $pagination->setOffet();
+        $this->offset = $pagination->setOffset();
 
         return $pagination->getLinks();
     }
 
-    public function getProducts(): array {
-        $arr= R::find($this->table, 'LIMIT ?, ?', [$this->offset, self::LIMIT]);
+    public function getProducts(array $params): array {
+        $allowedSorting = [
+            'name_asc' => "ORDER BY name ASC",
+            'price_asc' => "ORDER BY price ASC",
+            'name_desc' => "ORDER BY name DESC",
+            'price_desc' => "ORDER BY price DESC"
+        ];
+
+        $sorting = '';
+
+        if ($params['sort'] && array_key_exists($params['sort'], $allowedSorting)) {
+            $sorting = $allowedSorting[$params['sort']];
+        }
+
+        var_dump($sorting);
+
+        var_dump($params['sort']);
+        $arr= R::find($this->table, "$sorting LIMIT ?, ?", [$this->offset, self::LIMIT]);
 
         return $arr;
     }
 
     public function checkURI(string $uri) : string {
-        if (preg_match('/\?/', $uri)) {
+        if (str_contains($uri, '?')) {
             if (!preg_match('/&*page=\d/', $uri)) $uri .= '&page=1';
         } else {
             if (!preg_match('/&page=\d/', $uri)) $uri .= '?page=1';

@@ -1,87 +1,70 @@
 <?php
 
-
 namespace System;
-
 
 class Pagination {
 
-    public $currentPage;
-    public $perpage;
-    public $total;
-    public $countPages;
-    public $uri;
+    protected string $page;
+    protected int $limit;
+    protected int $itemCount;
+    protected int $pageCount;
+    protected string $uri;
 
-    public function __construct($page, $perpage, $total) {
-        $this->perpage = $perpage;
-        $this->total = $total;
-        $this->countPages = $this->getCountPages();
-        $this->currentPage = $this->getCurrentPage($page);
-        $this->uri = $this->getParams();
+
+    public function __construct( string $page, int $limit, int $itemCount ) {
+        $this->limit = $limit;
+        $this->itemCount = $itemCount;
+        $this->pageCount = $this->getCountPages();
+        $this->page = $this->setPage($page);
+        $this->uri = $this->getURI();
+
     }
 
-    public function getPageData(): array {
-        $pageLinks = [];
-
-        // $startpage
-        if ($this->currentPage > 2) {
-            $pageLinks[1] = $this->getLink(1);
-        }
-        
-
-        // $back
-        if ($this->currentPage > 1) {
-            $pageLinks[$this->currentPage - 1] = $this->getLink($this->currentPage - 1);
-        }
-
-        $pageLinks[$this->currentPage] = $this->getLink($this->currentPage);
-
-        // $forward
-        if ($this->currentPage < $this->countPages) {
-            $pageLinks[$this->currentPage + 1] = $this->getLink($this->currentPage + 1);
-        }
-
-     
-        // $endpage
-        if ($this->currentPage < ($this->countPages - 2)) {
-            $pageLinks[$this->countPages] = $this->getLink($this->countPages);
-        }
-
-        return $pageLinks;
+    public function setOffet() : int {
+        return ($this->page - 1) * $this->limit;
     }
 
-    public function getLink($page) {
-        if ($page == 1) {
-            return rtrim($this->uri, '?&');
-        }
+    public function getLinks() {
+        $links = [];
 
-        if (str_contains($this->uri, '&')) {
-            return "{$this->uri}page={$page}";
-        } else {
-            if (str_contains($this->uri, '?')) {
-                return "{$this->uri}page={$page}";
-            } else {
-                return "{$this->uri}?page={$page}";
-            }
+        // start Link
+        $links[1] = $this->setLink(1);
+        // prev
+        if ($this->page > 2) {
+            $links[$this->page - 1] = $this->setLink($this->page - 1);
         }
+        // current
+        $links[$this->page] = $this->setLink($this->page);
+
+        // next
+        if ($this->page < $this->pageCount - 1) {
+            $links[$this->page + 1] = $this->setLink($this->page + 1);
+        }
+        // end Link
+        $links[$this->pageCount] = $this->setLink($this->pageCount);
+
+        return $links;
     }
 
 
-    public function getCountPages() {
-        return ceil($this->total / $this->perpage) ?: 1;
-    }
+    protected function setPage(int $page) {
+        if ($page > $this->pageCount) $page = $this->pageCount;
+        if ($page <= 0) $page = 1;
 
-    public function getCurrentPage($page) {
-        if (!$page || $page < 1) $page = 1;
-        if ($page > $this->countPages) $page = $this->countPages;
         return $page;
     }
 
-    public function getStart() {
-        return ($this->currentPage - 1) * $this->perpage;
+    protected function getCountPages() {
+        return ceil($this->itemCount / $this->limit);
     }
 
-    public function getParams() {
+
+    public function setLink(string $page) : string {
+        $link = $this->uri . "page=$page";
+        return $link;
+    }
+
+    protected function getURI() {
         $url = $_SERVER['REQUEST_URI'];
         $url = explode('?', $url);
         $uri = $url[0];

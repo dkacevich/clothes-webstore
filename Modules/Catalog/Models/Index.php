@@ -32,15 +32,13 @@ class Index extends BaseModel {
 
     public function getPagination(int $page) : array {
         $pagination = new Pagination($page, self::LIMIT, $this->cnt);
+        $this->offset = $pagination->setOffet();
 
-        $this->offset = $pagination->getStart();
-        
-        return $pagination->getPageData();
+        return $pagination->getLinks();
     }
 
     public function getProducts(): array {
-        var_dump($this->offset);
-        $arr = R::findAll($this->table);
+        $arr= R::find($this->table, 'LIMIT ?, ?', [$this->offset, self::LIMIT]);
 
         return $arr;
     }

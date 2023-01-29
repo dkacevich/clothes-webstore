@@ -34,14 +34,14 @@
 						<div class="range__line" aria-label="Range Line"></div>
 						<div class="range__res">
 
-								{% for key,range in priceRange %}
-									<span data-start='{{ range }}' data-value='{{ range }}' class="range__res-item {{key}}-price">
-										{{ range }}$
+							{% for key,range in priceRange %}
+								<span data-start='{{ filterState[key] }}' data-value='{{ filterState[key] }}' class="range__res-item {{key}}-price">
+									{{ range }}$
 									</span>
 								{% endfor %}
 
-								<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{priceRange['min']}}" name="min" class='input-range' id="rng-min">
-								<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{priceRange['max']}}" name="max" class='input-range' id="rng-max">
+								<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{filterState['min']}}" name="min" class='input-range' id="rng-min">
+								<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{filterState['max']}}" name="max" class='input-range' id="rng-max">
 							</div>
 						</div>
 					</div>
@@ -95,10 +95,14 @@
 
 				</section>
 				<ul class="shop__paginator paginator">
-					{% for page in pages %}
-						<li>
-							<a data-page="{{ page }}" {% if url %} href="" {% endif %} class="paginator__item">{{ page }}</a>
-						</li>
+					{% for key, page in pages %}
+						{% if page %}
+
+							<li>
+								<a href="{{page}}" class="paginator__item {% if page == currentURL %} active {% endif %}">{{ key }}</a>
+							</li>
+						{% endif %}
+
 					{% endfor %}
 				</ul>
 			</div>

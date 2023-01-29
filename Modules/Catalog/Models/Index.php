@@ -4,114 +4,44 @@ namespace Modules\Catalog\Models;
 
 use Modules\_base\Model as BaseModel;
 use System\ArrayHelper;
-use System\Database\Connection;
-
-use function Aws\filter;
+use System\DB;
+use RedBeanPHP\R;
+use System\Pagination;
 
 class Index extends BaseModel {
-    const LIMIT = 9;
+    const LIMIT = 1;
     protected int $offset = 0;
     public int $cnt;
 
-    protected Connection $db;
+    protected DB $db;
     protected string $table = 'products';
 
-    public function __construct(Connection $db) {
+    public function __construct(DB $db) {
         parent::__construct($db);
-        // $this->totalCnt = $this->getTotalCount();
-        $this->cnt = 16;
+        $this->cnt = $this->getTotalCount();
     }
-
 
 
     protected function getTotalCount() {
-        $query = "SELECT COUNT(*) FROM {$this->table}";
-        return $this->db->select($query)[0]["COUNT(*)"];
+       return R::count($this->table);
     }
-
     public function getPriceRange() {
         $query = "SELECT MIN(price) AS min, MAX(price) AS max FROM {$this->table}";
-        return $this->db->select($query)[0];
+        return R::find($this->table, $query);
     }
 
-    public function getProducts(array $filters): array {
+    public function getPagination(int $page) : array {
+        $pagination = new Pagination($page, self::LIMIT, $this->cnt);
 
-        $query = "SELECT * FROM products ";
-        $validFilters = [];
+        $this->offset = $pagination->getStart();
+        
+        return $pagination->getPageData();
+    }
 
-        if (!empty($filters)) {
-            $validFilters = ArrayHelper::htmlChars($filters);
+    public function getProducts(): array {
+        var_dump($this->offset);
+        $arr = R::findAll($this->table);
 
-            if (isset($validFilters['tag'])) {
-                $query .= "INNER JOIN tags_products ON products.id_product = tags_products.id_product ";
-            }
-
-            if (isset($validFilters['id_category']) && $validFilters['id_category'] === '*') {
-                unset($validFilters['id_category']);
-            }
-
-
-            $i = 0;
-            foreach ($validFilters as $filter => $value) {
-                // if ($filter === 'min' || $filter === 'max') {
-                if (preg_match('/m../', $filter)) {
-                    continue;
-                }
-
-                
-                if (!$i) {
-                    $query .= "WHERE ";
-                } else {
-                    $query .= " AND ";
-                }
-
-                if ($filter === 'tag') {
-                    $tagsArr = [];
-
-                    for ($j = 1; $j  < count($value) + 1; $j++) {
-                        $tagsArr["id_tag_$j"] = $validFilters['tag'][$j - 1];
-                        if ($j === 1) {
-                            $query .= "(";
-                        }
-                        $query .= "id_tag = :id_tag_$j ";
-
-                        if ($j === count($value)) {
-                            $query .= ")";
-                        } else {
-                            $query .= "OR ";
-                        }
-                    }
-                    $validFilters += $tagsArr;
-                    unset($validFilters['tag']);
-                    $i++;
-                    continue;
-                }
-
-
-                $query .= "$filter = :$filter";
-                $i++;
-            }
-
-            if ($i === 0) {
-                $query .= " WHERE";
-            } else {
-                $query .= " AND";
-            }
-            $query .= " price >= :min AND price <= :max";
-        }
-
-        $query .= " LIMIT " . self::LIMIT;
-
-        echo "<pre>";
-        var_dump($query);
-        echo "</pre>";
-
-        $arr = $this->db->select($query, $validFilters);
-
-        echo "<pre>";
-        print_r($arr);
-        echo "</pre>";
-
-        return array_merge($arr);
+        return $arr;
     }
 }

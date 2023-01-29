@@ -3,18 +3,20 @@
 namespace Modules\Add\Controllers;
 
 use Aws\S3\Exception\S3Exception;
+use Exception;
 use Modules\_base\Controller as BaseController;
 use Modules\Add\Models\Index as Model;
-use System\Database\Connection;
+use System\DB;
 use System\Exceptions\ExcValidate;
+use RedBeanPHP\R;
 
 class Index extends BaseController {
     public Model $model;
-    protected Connection $db;
+    protected DB $db;
 
     public function __construct() {
         parent::__construct();
-        $this->db = Connection::getInstance();
+        $this->db = DB::getInstance();
         $this->model = new Model($this->db);
     }
 

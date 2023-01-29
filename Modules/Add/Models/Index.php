@@ -6,8 +6,9 @@ use Aws\S3\S3Client;
 use Modules\_base\Model as BaseModel;
 use Rakit\Validation\Validator;
 use System\ArrayHelper;
-use System\Database\Connection;
+use System\DB;
 use System\Exceptions\ExcValidate;
+use RedBeanPHP\R;
 
 class Index extends BaseModel {
     protected Validator $validator;
@@ -23,7 +24,7 @@ class Index extends BaseModel {
     protected array $config;
     protected string $table = 'products';
 
-    public function __construct(Connection $db) {
+    public function __construct(DB $db) {
         parent::__construct($db);
         $this->validator = new Validator();
         $this->config = [
@@ -67,23 +68,24 @@ class Index extends BaseModel {
         }
 
 
-        $names = implode(', ', $namesArr);
-        $masks = implode(', ', $masksArr);
-
-        $query = "INSERT INTO {$this->table} ($names) VALUES ($masks)";
-
 
         $params = ArrayHelper::extractFields($fields, ['name', 'price', 'image', 'id_category']);
-        $this->db->query($query, $params);
+
+        $product = R::dispense($this->table);
+        foreach ($params as $key => $value) {
+            $product->$key = $value;
+        }
+        $productId = R::store($product);
 
         
-
         // Save tags to separate DB
         if (!empty($fields['tag'])) {
-            $productId = $this->db->lastInsertId();
             foreach ($fields['tag'] as $tag) {
-                $query = "INSERT INTO tags_products (id_tag, id_product) VALUES (:id_tag, :id_product)";
-                $this->db->query($query, ['id_tag' => $tag, 'id_product' => $productId]);
+                $tagBean = R::xdispense('tags_products');
+                $tagBean->id_tag = $tag;
+                $tagBean->id_product = $productId;
+                
+                R::store($tagBean);
             }
         }
     }

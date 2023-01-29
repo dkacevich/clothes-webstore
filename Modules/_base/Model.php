@@ -2,24 +2,25 @@
 
 namespace Modules\_base;
 
-use System\Database\Connection;
+use System\DB;
+use RedBeanPHP\R;
 
 class Model {
-    protected Connection $db;
+    protected DB $db;
 
-    public function __construct(Connection $db) {
+    public function __construct(DB $db) {
         $this->db = $db;
     }
 
 
     public function getCategories(): array {
         $query = "SELECT * FROM categories";
-        return $this->db->select($query);
+        return R::getAll($query);
     }
 
     public function getTags(): array {
         $query = "SELECT * FROM tags";
-        return $this->db->select($query);
+        return R::getAll($query);
     }
     
 }

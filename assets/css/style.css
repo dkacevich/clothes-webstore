@@ -808,19 +808,19 @@ a:focus {
   cursor: pointer;
 }
 
-.paginator__item[href] {
+.paginator__item {
   border-color: #c2c2c2;
   color: #787b7f
 }
 
-.paginator__item[href]:focus,
-.paginator__item[href]:hover {
+.paginator__item:focus,
+.paginator__item:hover {
   color: #fff;
   border-color: #e45446;
   background-color: #e45446
 }
 
-.paginator__item:not([href]) {
+.paginator__item.active {
   color: #fff;
   background-color: #393939;
   cursor: default

@@ -1,7 +1,6 @@
 <?php
 
-include_once('init.php');
-include_once('vendor/autoload.php');
+include_once('config/init.php');
 
 use System\ModulesDispatcher;
 use System\Template;
@@ -10,18 +9,9 @@ use Modules\Catalog\Module as Catalog;
 use Modules\Delivery\Module as Delivery;
 use Modules\Add\Module as ProductAdd;
 
-use System\Database\Connection;
+
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
-
-const BASE_URL = 'http://clothes.dvl.to'; // http://clothes.dvl.to | http://clothes
-const DB_HOST = 'mysql'; // mysql | localhost
-const DB_NAME = 'clothes';
-const DB_USER = 'root';
-const DB_PASS = '';
-
-
-// $db = Connection::getInstance();
 
 
 

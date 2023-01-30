@@ -10,7 +10,7 @@ use RedBeanPHP\R;
 use System\Pagination;
 
 class Index extends BaseModel {
-    const LIMIT = 2;
+    const LIMIT = 5;
     protected int $offset = 0;
     public int $cnt;
     public array $paginationLinks;

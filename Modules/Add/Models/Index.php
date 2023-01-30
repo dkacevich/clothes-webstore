@@ -18,23 +18,13 @@ class Index extends BaseModel {
         'image' => 'uploaded_file|max:5M|mimes:jpeg,png',
     ];
 
-    protected string $bucket = 'phpclothes';
-    protected string $region = 'eu-central-1';
 
-    protected array $config;
     protected string $table = 'products';
 
     public function __construct(DB $db) {
         parent::__construct($db);
         $this->validator = new Validator();
-        $this->config = [
-            'region' => $this->region,
-            'version' => 'latest',
-            'credentials' => [
-                'key'    => 'AKIARV62BHHQ4CNZMZSN',
-                'secret' => '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'
-            ],
-        ];
+        
     }
 
     public function add(array $fields) {
@@ -93,22 +83,7 @@ class Index extends BaseModel {
     
 
     protected function uploadImage(mixed $img): string {
-        $s3 = new S3Client($this->config);
-
-        // Make random img name
-        $ext = preg_replace('/^.+\./', '', $img['name']);
-        $key = bin2hex(random_bytes(30)) . ".$ext";
-
-
-        $res = $s3->putObject([
-            'Bucket' => $this->bucket,
-            'Key'    => $key,
-            'Body'   => fopen($img["tmp_name"], 'r'),
-            'ACL'    => 'public-read',
-        ]);
-
-        // If error will happen, S3Client throw new Error
-
-        return $res['ObjectURL'];
+        move_uploaded_file( $img['tmp_name'], UPLOADS . "/$img[name]" );
+        return "/uploads/$img[name]" ;
     }
 }

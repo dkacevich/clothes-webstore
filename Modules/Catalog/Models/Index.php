@@ -14,6 +14,8 @@ class Index extends BaseModel {
     protected int $offset = 0;
     public int $cnt;
     public array $paginationLinks;
+    public array $priceRange;
+    public array $totalPriceRange;
 
     protected DB $db;
     protected string $table = 'products';
@@ -21,15 +23,20 @@ class Index extends BaseModel {
     public function __construct(DB $db) {
         parent::__construct($db);
         $this->cnt = $this->getTotalCount();
+        $this->totalPriceRange = $this->getPriceRange();
+        $this->priceRange = $this->totalPriceRange;
     }
 
 
     protected function getTotalCount() {
         return R::count($this->table);
     }
-    public function getPriceRange() {
-        $query = "SELECT MIN(price) AS min, MAX(price) AS max FROM {$this->table}";
-        return R::find($this->table, $query);
+    public function getPriceRange(string $paramsSql = '', array $binds = []) {
+
+        $min = R::getCell("SELECT MIN(price) FROM {$this->table} $paramsSql", $binds);
+        $max = R::getCell("SELECT MAX(price) FROM {$this->table} $paramsSql", $binds);
+
+        return ['min' => $min, 'max' => $max];
     }
 
     public function getPagination(int $page) {
@@ -44,26 +51,11 @@ class Index extends BaseModel {
         $valuesArr = [':offset' => &$this->offset, ':limit' => self::LIMIT];
         $filterCount = 0;
 
-
-        if (isset($params['id_category'])) {
-            $allowedCategories = $this->getCategories();
-            $isCategoryAllowed = false;
-
-            foreach ($allowedCategories as $category) {
-                if ($category['id'] === $params['id_category']) {
-                    $isCategoryAllowed = true;
-                    $filterCount++;
-                }
-            }
-        }
-
         $category = '';
-        if (isset($isCategoryAllowed) && !$isCategoryAllowed) {
-            throw new Exception("This category not found");
-        } else if (isset($isCategoryAllowed) && $isCategoryAllowed) {
-            $category = " id_category = :id_category ";
-            $valuesArr[':id_category'] = $params['id_category'];
-        }
+        $idProducts = '';
+        $sorting = '';
+        $range = '';
+        
 
 
         if (isset($params['tag'])) {
@@ -80,13 +72,11 @@ class Index extends BaseModel {
             }
         }
 
-        $idProducts = '';
+
         if (isset($isTagAllowed) && !$isTagAllowed) {
             throw new Exception("This Tags not found");
         } else if (isset($isTagAllowed) && $isTagAllowed) {
-            // $tags = "INNER JOIN tags_products ON {$this->table}.id = tags_products.id";
-            // $category = " id_category = :id_category ";
-            // $valuesArr[':id_category'] = $params['id_category'];
+            // TODO later change to Inner Join
             $productsWithTag = R::find('tags_products', 'id_tag IN ('.R::genSlots($params['tag']).')', $params['tag']);
 
             $productsStr = '';
@@ -94,10 +84,38 @@ class Index extends BaseModel {
                 $productsStr .= "$product->id_product,";
             }
             $productsStr = rtrim($productsStr, ',');
-            $idProducts = "id IN ($productsStr)";
+            $idProducts = ($category === '' ? ' WHERE' : ' AND ') . " id IN ($productsStr)";
         }
 
 
+        if (isset($params['id_category'])) {
+            $allowedCategories = $this->getCategories();
+            $isCategoryAllowed = false;
+
+            foreach ($allowedCategories as $category) {
+                if ($category['id'] === $params['id_category']) {
+                    $isCategoryAllowed = true;
+                    $filterCount++;
+                }
+            }
+        }
+
+        if (isset($isCategoryAllowed) && !$isCategoryAllowed) {
+            throw new Exception("This category not found");
+        } else if (isset($isCategoryAllowed) && $isCategoryAllowed) {
+            $category = ($filterCount <= 1 ? ' WHERE' : ' AND ') . " id_category = :id_category ";
+            $valuesArr[':id_category'] = $params['id_category'];
+        }
+
+
+        if (isset($params['min']) && isset($params['min'])) {
+            $filterCount += 2;
+            $this->priceRange = ['min' => $params['min'], 'max' => $params['max']];
+            $range = ($filterCount <= 2 ? ' WHERE ' : ' AND ') . "price BETWEEN :min AND :max";
+            $valuesArr[':min'] = $params['min'];
+            $valuesArr[':max'] = $params['max'];
+
+        }
 
 
         $allowedSorting = [
@@ -109,28 +127,21 @@ class Index extends BaseModel {
             'date_desc' => "ORDER BY dt_add DESC",
         ];
 
-
-        $sorting = '';
-
         if (isset($params['sort']) && array_key_exists($params['sort'], $allowedSorting)) {
             $sorting = $allowedSorting[$params['sort']];
         }
 
+        $baseSql = "SELECT * FROM {$this->table}";
+        $paramsSql = " $idProducts $category $range $sorting LIMIT :offset, :limit";
+        $sql = trim($baseSql . $paramsSql);
 
-        var_dump($category);
-        var_dump($valuesArr);
-        $sql = trim("$idProducts $category $sorting LIMIT :offset, :limit");
-
-        // var_dump($sql);
-
-        $this->cnt = R::count($this->table, $sql, $valuesArr);
+        $this->cnt = R::count($this->table, $paramsSql, $valuesArr);
         $this->getPagination($params['page'] ?? 1);
 
-        $arr = R::find($this->table, $sql, $valuesArr);
+        // $this->priceRange = $this->getPriceRange($paramsSql, $valuesArr);
 
-        // echo "<pre>";
-        // print_r($arr);
-        // echo "</pre>";
+        $arr = R::getAll($sql, $valuesArr);
+
 
         return $arr;
     }

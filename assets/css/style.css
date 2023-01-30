@@ -557,16 +557,10 @@ a:focus {
 }
 
 .range__line {
-  position: relative;
-  height: 3px;
-  background-color: #c3c3c3
 }
 
 .range__line div,
 .range__line span {
-  position: absolute;
-  height: 3px;
-  background-color: #e45446
 }
 
 .range__line span {

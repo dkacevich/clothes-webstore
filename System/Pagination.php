@@ -28,7 +28,9 @@ class Pagination {
         $links = [];
 
         // start Link
-        $links[1] = $this->setLink(1);
+        if ($this->page > 1) {
+            $links[1] = $this->setLink(1);
+        }
         // prev
         if ($this->page > 2) {
             $links[$this->page - 1] = $this->setLink($this->page - 1);

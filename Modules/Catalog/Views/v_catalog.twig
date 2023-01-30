@@ -30,13 +30,13 @@
 						<div class="range__res">
 
 							{% for key,range in priceRange %}
-								<span data-start='{{ filterState[key] }}' data-value='{{ filterState[key] }}' class="range__res-item {{key}}-price">
+								<span data-start='{{ totalPriceRange[key] }}' data-value='{{ priceRange[key] }}' class="range__res-item {{key}}-price">
 									{{ range }}$
 									</span>
 								{% endfor %}
 
-								<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{filterState['min']}}" name="min" class='input-range' id="rng-min">
-								<input type="range" min="{{priceRange['min']}}" max="{{priceRange['max']}}" value="{{filterState['max']}}" name="max" class='input-range' id="rng-max">
+								<input type="range" min="{{totalPriceRange['min']}}" max="{{totalPriceRange['max']}}" value="{{priceRange['min']}}" name="min" class='input-range' id="rng-min">
+								<input type="range" min="{{totalPriceRange['min']}}" max="{{totalPriceRange['max']}}" value="{{priceRange['max']}}" name="max" class='input-range' id="rng-max">
 							</div>
 						</div>
 					</div>
@@ -44,13 +44,7 @@
 					<fieldset class="custom-form__group">
 
 						{% for tag in tags %}
-							<input 
-								{% for selectedTag in selectedTags %}
-									{% if selectedTags[loop.index - 1] == tag.id %}
-										{{ 'checked' }}
-									{% endif %}
-								{% endfor %}
-							 type="checkbox" name="tag[]" value="{{tag.id}}" id="{{ tag.label }}" class="custom-form__checkbox">
+							<input {% for selectedTag in selectedTags %} {% if selectedTags[loop.index - 1] == tag.id %} {{ 'checked' }} {% endif %} {% endfor %} type="checkbox" name="tag[]" value="{{tag.id}}" id="{{ tag.label }}" class="custom-form__checkbox">
 							<label for="{{ tag.label }}" class="custom-form__checkbox-label custom-form__info" style="display: block;">{{ tag.name }}</label>
 						{% endfor %}
 
@@ -100,14 +94,16 @@
 
 				</section>
 				<ul class="shop__paginator paginator">
-					{% for key, page in pages %}
-						{% if page %}
-							<li>
-								<a href="{{page}}" class="paginator__item {% if page == currentURL %} active {% endif %}">{{ key }}</a>
-							</li>
-						{% endif %}
+					{% if products %}
+						{% for key, page in pages %}
+							{% if page %}
+								<li>
+									<a href="{{page}}" class="paginator__item {% if page == currentURL %} active {% endif %}">{{ key }}</a>
+								</li>
+							{% endif %}
 
-					{% endfor %}
+						{% endfor %}
+					{% endif %}
 				</ul>
 			</div>
 		</section>

@@ -18,12 +18,9 @@
 			<link rel="stylesheet" href="{{constant('BASE_URL')}}/assets/css/style.css">
 
 			{% if jquery %}
-				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+				<link rel="stylesheet" href="{{constant('BASE_URL')}}/assets/css/nouislider.css">
 			{% endif %}
-
-			<script src="{{constant('BASE_URL')}}/assets/js/scripts.js" defer=""></script>
-			<script src="{{constant('BASE_URL')}}/assets/js/main.js" defer=""></script>
+			
 		{% endblock %}
 	</head>
 	<body>
@@ -58,5 +55,13 @@
 				</address>
 			</div>
 		</footer>
+		{% if jquery %}
+			<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+			<script src="{{constant('BASE_URL')}}/assets/js/nouislider.min.js" defer=""></script>
+		{% endif %}
+
+		<script src="{{constant('BASE_URL')}}/assets/js/scripts.js" defer=""></script>
+		<script src="{{constant('BASE_URL')}}/assets/js/main.js" defer=""></script>
 	</body>
 </html>

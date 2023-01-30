@@ -120,7 +120,7 @@ const sortFilter = document.querySelector('#sort-filter');
 
 if (sortFilter) {
     sortFilter.addEventListener('change', (e) => {
-        
+
         let search = window.location.search.replace(/&*page=\d/g, '')
         let url = document.location.pathname + (search ? (search + '&') : (search + '?')) + e.target.name + '=' + e.target.value;
         window.location = url
@@ -136,17 +136,55 @@ if (sortFilter) {
 // jquery range maxmin
 if (document.querySelector('.shop-page')) {
 
-    const min = $('.min-price').data('start');
-    const max = $('.max-price').data('start');
+    const handlesSlider = document.querySelector('.range__line');
+    const minPrice = document.querySelector('.min-price');
+    const maxPrice = document.querySelector('.max-price');
+
+    const formMinPrice = document.querySelector('#rng-min');
+    const formMaxPrice = document.querySelector('#rng-max');
 
 
-    $('.range__line').slider({
-        min,
-        max,
-        values: [min, max],
-        range: true,
-        slide: setRangeValues
+    let minDefault = parseInt(minPrice.getAttribute('data-start'));
+    let maxDefault = parseInt(maxPrice.getAttribute('data-start'));
+
+    let minCurrent = parseInt(minPrice.getAttribute('data-value'));
+    let maxCurrent = parseInt(maxPrice.getAttribute('data-value'));
+
+
+    noUiSlider.create(handlesSlider, {
+        start: [minCurrent, maxCurrent],
+        step: 1,
+        range: {
+            'min': [minDefault],
+            'max': [maxDefault]
+        }
     });
+
+    handlesSlider.noUiSlider.on("update", (values) => {
+        let min = parseInt(values[0]);
+        let max = parseInt(values[1]);
+
+        formMinPrice.setAttribute('value', values[0])
+        formMaxPrice.setAttribute('value', values[1])
+
+        minPrice.textContent = min + '$';
+        maxPrice.textContent = max + '$';
+    })
+
+
+
+    // const min = $('.min-price').data('value');
+    // const max = $('.max-price').data('value');
+
+    // console.log(min, max);
+
+    // $('.range__line').slider({
+    //     min,
+    //     max,
+    //     values: [min, max],
+    //     range: true,
+    //     slide: setRangeValues
+    // });
 }
 
 

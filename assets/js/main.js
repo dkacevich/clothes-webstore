@@ -120,7 +120,10 @@ const sortFilter = document.querySelector('#sort-filter');
 
 if (sortFilter) {
     sortFilter.addEventListener('change', (e) => {
-        window.location =  window.location.pathname + '?' + e.target.name + '=' + e.target.value;
+        
+        let search = window.location.search.replace(/&*page=\d/g, '')
+        let url = document.location.pathname + (search ? (search + '&') : (search + '?')) + e.target.name + '=' + e.target.value;
+        window.location = url
     })
 }
 

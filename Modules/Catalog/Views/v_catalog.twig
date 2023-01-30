@@ -14,17 +14,12 @@
 						{% for category in categories %}
 							<li>
 								<label class='filter__list-item'>
-									<input type="radio" name="id_category" value="{{ category.id_category }}">
+									<input {% if selectedCategory == category.id %} checked {% endif %} type="radio" name="id_category" value="{{ category.id }}">
 									<span>{{ category.name }}</span>
 								</label>
 							</li>
 						{% endfor %}
-						<li>
-							<label class='filter__list-item'>
-								<input type="radio" name="id_category" value="*">
-								<span>Все категории</span>
-							</label>
-						</li>
+
 					</ul>
 				</div>
 				<div class="filter__wrapper">
@@ -47,8 +42,15 @@
 					</div>
 
 					<fieldset class="custom-form__group">
+
 						{% for tag in tags %}
-							<input type="checkbox" name="tag[]" value="[{{tag.id_tag}}]" id="{{ tag.label }}" class="custom-form__checkbox">
+							<input 
+								{% for selectedTag in selectedTags %}
+									{% if selectedTags[loop.index - 1] == tag.id %}
+										{{ 'checked' }}
+									{% endif %}
+								{% endfor %}
+							 type="checkbox" name="tag[]" value="{{tag.id}}" id="{{ tag.label }}" class="custom-form__checkbox">
 							<label for="{{ tag.label }}" class="custom-form__checkbox-label custom-form__info" style="display: block;">{{ tag.name }}</label>
 						{% endfor %}
 
@@ -64,17 +66,17 @@
 						<div class="shop__sorting-item custom-form__select-wrapper">
 							<select id='sort-filter' class="custom-form__select" name="sort">
 								<option hidden="">Сортировка</option>
-								<option {% if selectedSort == 'price_asc' %}selected{% endif %}
-								 value="price_asc">По цене (возрастание)</option>
-								<option {% if selectedSort == 'price_desc' %}selected{% endif %}
-								 value="price_desc">По цене (убывание)</option>
-								<option {% if selectedSort == 'name_asc' %}selected{% endif %}
-								 value="name_asc">По названию (возрастание)</option>
-								<option {% if selectedSort == 'name_desc' %}selected{% endif %}
-								 value="name_desc">По названию (убывание)</option>
+
+								<option {% if selectedSort == 'date_asc' %} selected {% endif %} value="date_asc">По дате (возрастание)</option>
+								<option {% if selectedSort == 'date_desc' %} selected {% endif %} value="date_desc">По дате (убывание)</option>
+								<option {% if selectedSort == 'price_asc' %} selected {% endif %} value="price_asc">По цене (возрастание)</option>
+								<option {% if selectedSort == 'price_desc' %} selected {% endif %} value="price_desc">По цене (убывание)</option>
+								<option {% if selectedSort == 'name_asc' %} selected {% endif %} value="name_asc">По названию (возрастание)</option>
+								<option {% if selectedSort == 'name_desc' %} selected {% endif %} value="name_desc">По названию (убывание)</option>
 							</select>
 						</div>
 
+						<button class="button shop__btn">Применить</button>
 					</form>
 					<p class="shop__sorting-res">Найдено
 						<span class="res-sort">{{ count }}</span>

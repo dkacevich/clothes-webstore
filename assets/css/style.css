@@ -1397,3 +1397,28 @@ a:focus {
 }
 .cart__qty {
 }
+
+
+
+.main-page {
+  margin-top: 30px;
+  margin-bottom: 80px;
+  text-align: center;
+}
+.main-page__title {
+  font-size: 40px;
+}
+.main-page__subtitle {
+  font-size: 29px;
+}
+.main-page__image {
+  margin-top: 50px;
+}
+.main-page__sale {
+  margin-top: 50px;
+  font-size: 30px;
+}
+.main-page__subsale {
+  margin-top: 10px;
+  font-size: 22px;
+}

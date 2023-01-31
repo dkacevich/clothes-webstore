@@ -5,6 +5,7 @@ include_once('config/init.php');
 use System\ModulesDispatcher;
 use System\Template;
 
+use Modules\Main\Module as Main;
 use Modules\Catalog\Module as Catalog;
 use Modules\Delivery\Module as Delivery;
 use Modules\Add\Module as ProductAdd;
@@ -23,6 +24,7 @@ try {
     $router = new AltoRouter();
 
     $modules = new ModulesDispatcher();
+    $modules->add(new Main());
     $modules->add(new Catalog());
     $modules->add(new Delivery());
     $modules->add(new ProductAdd());

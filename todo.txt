@@ -1,4 +1,2 @@
-Product card
-Order Checkout
 Login / Register
 Restricted access

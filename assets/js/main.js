@@ -127,13 +127,10 @@ if (sortFilter) {
     })
 }
 
+////////////////////////////////////////////////////////////////////////
 
 
 
-
-
-
-// jquery range maxmin
 if (document.querySelector('.shop-page')) {
 
     const handlesSlider = document.querySelector('.range__line');
@@ -172,41 +169,7 @@ if (document.querySelector('.shop-page')) {
     })
 
 
-
-    // const min = $('.min-price').data('value');
-    // const max = $('.max-price').data('value');
-
-    // console.log(min, max);
-
-    // $('.range__line').slider({
-    //     min,
-    //     max,
-    //     values: [min, max],
-    //     range: true,
-    //     slide: setRangeValues
-    // });
 }
-
-
-function setRangeValues(event, ui) {
-    let minValue = ui.values[0];
-    let maxValue = ui.values[1];
-
-    $('.min-price').text(minValue + ' $');
-    $('.max-price').text(maxValue + ' $');
-
-    $('#rng-min').val(minValue);
-    $('#rng-max').val(maxValue);
-}
-
-
-
-
-
-
-
-
-
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -227,4 +190,50 @@ if (paginatorItems.length) {
     });
 }
 
+////////////////////////////////////////////////////////////////////////
 
+
+
+const shopItems = document.querySelectorAll('.shop__item');
+const cartIcon = document.querySelector('.page-header__cart-icon');
+
+
+if (shopItems.length) {
+    const shopOrder = document.querySelector('.shop-page__popup-end');
+    const closeBtn = shopOrder.querySelector('button');
+
+
+    shopItems.forEach(shopItem => {
+        shopItem.addEventListener('click', async (e) => {
+
+
+            const id = shopItem.getAttribute('data-id')
+            const url = '/cart/add'
+            const data = new FormData()
+            data.append('id', id)
+
+            const res = await postData({ url, data })
+            
+            if (res.errors.length) {
+                res.errors.forEach(error => {
+                    alert(error)
+                });
+
+                throw new Error(`from ${url}, with status`);
+            }
+
+            cartIcon.textContent++;
+
+
+
+            // For popup
+            toggleHidden(document.querySelector('.intro'), document.querySelector('.shop'), shopOrder);
+            const btnCloseFunc = (e) => {
+                toggleHidden(document.querySelector('.intro'), document.querySelector('.shop'), shopOrder);
+                e.target.removeEventListener('click', btnCloseFunc)
+            }
+            closeBtn.addEventListener('click', btnCloseFunc)
+
+        })
+    });
+}

@@ -8,13 +8,14 @@ use System\Template;
 use Modules\Catalog\Module as Catalog;
 use Modules\Delivery\Module as Delivery;
 use Modules\Add\Module as ProductAdd;
+use Modules\Cart\Module as Cart;
 
 
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
 
 
-
+session_start();
 $view = Template::getInstance();
 
 try {
@@ -25,6 +26,7 @@ try {
     $modules->add(new Catalog());
     $modules->add(new Delivery());
     $modules->add(new ProductAdd());
+    $modules->add(new Cart());
     $modules->registerRoutes($router);
 
     $match = $router->match();

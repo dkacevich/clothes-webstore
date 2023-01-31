@@ -80,7 +80,7 @@
 						<h4>Извините ничего не найдено.</h4>
 					{% else %}
 						{% for product in products %}
-							<article class="shop__item product" tabindex="0">
+							<article data-id="{{ product.id }}" class="shop__item product" tabindex="0">
 								<div class="product__image">
 									<img src="{{ product.image }}" alt="product-name">
 								</div>
@@ -106,7 +106,20 @@
 				</ul>
 			</div>
 		</section>
-		<section class="shop-page__order" hidden="">
+
+		<section class="shop-page__popup-end" hidden="">
+			<div class="shop-page__wrapper shop-page__wrapper--popup-end">
+				<h2 class="h h--1 h--icon shop-page__end-title">Спасибо за заказ!</h2>
+				<p class="shop-page__end-message">Ваш товар успешно додан в корзину</p>
+				<button class="button">Продолжить покупки</button>
+				<a style='margin: 20px 0;' href="{{constant('BASE_URL')}}/cart" class="button">Перейти в корзину</a>
+			</div>
+		</section>
+	</main>
+
+
+
+{# <section class="shop-page__order" hidden="">
 			<div class="shop-page__wrapper">
 				<h2 class="h h--1">Оформление заказа</h2>
 				<form action="#" method="post" class="custom-form js-order">
@@ -163,12 +176,4 @@
 					<button class="button" type="submit">Отправить заказ</button>
 				</form>
 			</div>
-		</section>
-		<section class="shop-page__popup-end" hidden="">
-			<div class="shop-page__wrapper shop-page__wrapper--popup-end">
-				<h2 class="h h--1 h--icon shop-page__end-title">Спасибо за заказ!</h2>
-				<p class="shop-page__end-message">Ваш заказ успешно оформлен, с вами свяжутся в ближайшее время</p>
-				<button class="button">Продолжить покупки</button>
-			</div>
-		</section>
-	</main>
+		</section> #}

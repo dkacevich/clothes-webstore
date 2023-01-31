@@ -14,10 +14,24 @@ class Controller {
             'title' => 'Fashion',
             'content' => '',
             'jquery' => false,
-            'currentUrl' => BASE_URL . $_SERVER['REQUEST_URI']
+            'currentUrl' => BASE_URL . explode('?', $_SERVER['REQUEST_URI'])[0],
+            'cartCount' =>  $this->countCart(),
         ];
     }
 
+    protected function countCart(): int {
+        $count = 0;
+
+        if (isset($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $id => $product) {
+                if (is_int($id)) {
+                    $count += $product['qty'];
+                }
+            }
+        }
+        
+        return $count;
+    }
 
     public function render() {
         return $this->view->render('_base/Views/v_main.twig', $this->pageContent);

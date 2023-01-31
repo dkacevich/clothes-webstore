@@ -5,7 +5,7 @@ define("ROOT", dirname(__DIR__));
 define("CONFIG", ROOT . '/config');
 define("SYSTEM", ROOT . '/System');
 define("UPLOADS", ROOT . '/uploads');
-define("BASE_URL", 'http://clothes.dvl.to'); // .dvl.to
+define("BASE_URL", 'http://clothes'); // .dvl.to
 
 
 

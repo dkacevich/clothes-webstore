@@ -25,6 +25,7 @@
 	</head>
 	<body>
 		<header class="page-header">
+
 			<a class="page-header__logo" href="#">
 				<img src="{{constant('BASE_URL')}}/assets/img/logo.svg" alt="Fashion">
 			</a>
@@ -32,9 +33,13 @@
 			<nav class="page-header__menu">
 				<ul class="main-menu main-menu--header">
 					{{ block("menu_list", "_base/Views/menu_list.twig") }}
-
 				</ul>
 			</nav>
+
+			<a class="page-header__cart" href="#">
+				<img src="{{constant('BASE_URL')}}/assets/img/cart.svg" alt="Fashion">
+				<span class='page-header__cart-icon'>{{ cartCount }}</span>
+			</a>
 		</header>
 
 		{{ content }}

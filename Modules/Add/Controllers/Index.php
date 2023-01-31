@@ -40,10 +40,7 @@ class Index extends BaseController {
             $bag = $e->getBag();
             $errors = $bag->firstOfAll();
             $res['errors'] = $errors;
-        } catch (S3Exception $e) {
-            $res['errors'] = $e->getAwsErrorMessage();
         }
-       
 
         echo json_encode($res);
     }

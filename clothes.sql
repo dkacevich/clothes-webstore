@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: mysql
--- Generation Time: Jan 30, 2023 at 10:56 AM
--- Server version: 10.6.11-MariaDB-1:10.6.11+maria~ubu2004-log
--- PHP Version: 8.1.14
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jan 31, 2023 at 04:11 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `label` varchar(128) NOT NULL
+  `id` int UNSIGNED NOT NULL,
+  `name` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `label` varchar(128) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -46,16 +46,71 @@ INSERT INTO `categories` (`id`, `name`, `label`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int UNSIGNED NOT NULL,
+  `firstname` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `lastname` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `patronymic` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `payment` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
+  `comment` varchar(256) COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `firstname`, `lastname`, `patronymic`, `phone`, `email`, `payment`, `comment`) VALUES
+(1, 'me', 'to', 'yes', '2522222222222222', 'fsfsfe@fafa.bj', 'card', NULL),
+(2, '2424', '2424', NULL, '2424', '235@fad.cv', 'card', NULL),
+(3, 'Pavel', 'Doroshenko', NULL, '+33553355335', 'men.me@urk.net', 'cash', 'No'),
+(4, 'Pavel', 'Doroshenko', NULL, '+33553355335', 'men.me@urk.net', 'card', NULL),
+(5, 'taewtaet', 'Doroshenko', NULL, '+33553355335', 'men.me@urk.net', 'card', NULL),
+(6, 'taewtaet', 'Doroshenko', NULL, '+33553355335', '235@fad.cv', 'card', NULL),
+(7, '32535', 'Doroshenko', NULL, '+33553355335', 'men.me@urk.net', 'cash', NULL),
+(8, 'taewtaet', 'Doroshenko', NULL, '+33553355335', '235@fad.cv', 'card', NULL),
+(9, 'taewtaet', 'Doroshenko', NULL, '+33553355335', 'men.me@urk.net', 'card', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders_products`
+--
+
+CREATE TABLE `orders_products` (
+  `id` int UNSIGNED NOT NULL,
+  `id_order` int UNSIGNED NOT NULL,
+  `id_product` int UNSIGNED NOT NULL,
+  `product_qty` int UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders_products`
+--
+
+INSERT INTO `orders_products` (`id`, `id_order`, `id_product`, `product_qty`) VALUES
+(7, 8, 24, 2),
+(8, 8, 26, 1),
+(9, 8, 28, 1),
+(10, 9, 24, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `price` int(11) NOT NULL,
-  `image` text DEFAULT NULL,
-  `id_category` int(100) UNSIGNED DEFAULT NULL,
-  `dt_add` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` int UNSIGNED NOT NULL,
+  `name` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `price` int NOT NULL,
+  `image` text COLLATE utf8mb4_general_ci,
+  `id_category` int UNSIGNED DEFAULT NULL,
+  `dt_add` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -72,14 +127,14 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `id_category`, `dt_add`)
 (30, 'Sunglasses', 100, '/uploads/glasses.jpg', 12, '2023-01-25 09:53:01'),
 (31, 'Sweater', 350, '/uploads/sweater.jpg', 11, '2023-01-25 09:53:22'),
 (36, 'est', 123, '/uploads/sweater.jpg', NULL, '2023-01-30 10:32:50'),
-(37, '1331', 23312, '/uploads/sweater.jpg', NULL, '2023-01-30 10:33:15'),
+(37, '1331', 2331, '/uploads/sweater.jpg', NULL, '2023-01-30 10:33:15'),
 (38, '123', 232, '/uploads/sweater.jpg', NULL, '2023-01-30 10:33:58'),
 (39, '24', 23, '/uploads/sweater.jpg', NULL, '2023-01-30 10:35:54'),
 (40, '123', 23, '/uploads/sweater.jpg', NULL, '2023-01-30 10:37:53'),
 (41, '13', 223, '/uploads/dress3.jpg', NULL, '2023-01-30 10:38:16'),
 (42, 'Have be good', 111, '/uploads/dress2.jpg', NULL, '2023-01-30 10:39:50'),
 (43, '24', 24, '/uploads/sweater.jpg', NULL, '2023-01-30 10:41:06'),
-(44, '123', 444444, '/uploads/sweater.jpg', NULL, '2023-01-30 10:41:38');
+(44, '123', 4444, '/uploads/sweater.jpg', NULL, '2023-01-30 10:41:38');
 
 -- --------------------------------------------------------
 
@@ -88,9 +143,9 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `id_category`, `dt_add`)
 --
 
 CREATE TABLE `tags` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `label` varchar(64) NOT NULL
+  `id` int UNSIGNED NOT NULL,
+  `name` varchar(128) COLLATE utf8mb4_general_ci NOT NULL,
+  `label` varchar(64) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -108,9 +163,9 @@ INSERT INTO `tags` (`id`, `name`, `label`) VALUES
 --
 
 CREATE TABLE `tags_products` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_tag` int(10) UNSIGNED NOT NULL,
-  `id_product` int(10) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `id_tag` int UNSIGNED NOT NULL,
+  `id_product` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -133,11 +188,11 @@ INSERT INTO `tags_products` (`id`, `id_tag`, `id_product`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `login` int(11) NOT NULL,
-  `password` int(11) NOT NULL,
-  `id_status` tinyint(3) UNSIGNED DEFAULT NULL
+  `id` int UNSIGNED NOT NULL,
+  `name` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `login` int NOT NULL,
+  `password` int NOT NULL,
+  `id_status` tinyint UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -150,6 +205,20 @@ CREATE TABLE `users` (
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `label` (`label`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders_products`
+--
+ALTER TABLE `orders_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_order` (`id_order`,`id_product`),
+  ADD KEY `id_product` (`id_product`);
 
 --
 -- Indexes for table `products`
@@ -188,35 +257,54 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `orders_products`
+--
+ALTER TABLE `orders_products`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tags_products`
 --
 ALTER TABLE `tags_products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `orders_products`
+--
+ALTER TABLE `orders_products`
+  ADD CONSTRAINT `orders_products_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orders_products_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `products`

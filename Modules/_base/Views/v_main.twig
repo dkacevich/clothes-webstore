@@ -20,7 +20,7 @@
 			{% if jquery %}
 				<link rel="stylesheet" href="{{constant('BASE_URL')}}/assets/css/nouislider.css">
 			{% endif %}
-			
+
 		{% endblock %}
 	</head>
 	<body>
@@ -32,7 +32,13 @@
 
 			<nav class="page-header__menu">
 				<ul class="main-menu main-menu--header">
-					{{ block("menu_list", "_base/Views/menu_list.twig") }}
+					{% if status == 1 %}
+						{{ block("menu_list", "_base/Views/menu_list_admin.twig") }}
+					{% elseif status == 2 %}
+						{{ block("menu_list", "_base/Views/menu_list_buyer.twig") }}
+					{% else %}
+						{{ block("menu_list", "_base/Views/menu_list.twig") }}
+					{% endif %}
 				</ul>
 			</nav>
 
@@ -52,7 +58,13 @@
 				</a>
 				<nav class="page-footer__menu">
 					<ul class="main-menu main-menu--footer">
-						{{ block("menu_list", "_base/Views/menu_list.twig") }}
+						{% if status == 1 %}
+							{{ block("menu_list", "_base/Views/menu_list_admin.twig") }}
+						{% elseif status == 2 %}
+							{{ block("menu_list", "_base/Views/menu_list_buyer.twig") }}
+						{% else %}
+							{{ block("menu_list", "_base/Views/menu_list.twig") }}
+						{% endif %}
 					</ul>
 				</nav>
 				<address class="page-footer__copyright">

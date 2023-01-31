@@ -1422,3 +1422,8 @@ a:focus {
   margin-top: 10px;
   font-size: 22px;
 }
+
+.page-authorization .toggle_auth {
+  display: block;
+  margin: 20px 0 40px 0;
+}

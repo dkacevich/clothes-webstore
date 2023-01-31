@@ -16,6 +16,8 @@ class Controller {
             'jquery' => false,
             'currentUrl' => BASE_URL . explode('?', $_SERVER['REQUEST_URI'])[0],
             'cartCount' =>  $this->countCart(),
+            'user' => $_SESSION['user']['token'] ?? $_COOKIE['token'] ?? null,
+            'status' => $_SESSION['user']['status'] ?? null,
         ];
     }
 

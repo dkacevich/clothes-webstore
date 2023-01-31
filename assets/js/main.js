@@ -324,6 +324,48 @@ if (orderForm) {
 //////////////////////////////////////////////////////////////////////
 
 
+const loginForm = document.querySelector('#login-form');
+const registerForm = document.querySelector('#register-form');
+
+if (loginForm) {
+    
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // If errors already exist - remove them
+        const errors = document.querySelectorAll('.form_error');
+        if (errors.length) {
+            errors.forEach(elem => {
+                elem.remove();
+            });
+        }
+
+        // Make Post Request
+        const url = '/login'
+        const data = new FormData(e.target);
+
+        const res = await postData({ url, data })
+
+        if (Object.keys(res.errors).length) {
+            for (const key in res.errors) {
+                const error = document.createElement('div');
+                error.classList.add('form_error');
+                error.innerText = res.errors[key];
+                loginForm.appendChild(error);
+            }
+        } else {
+            window.location.replace('/catalog');
+        }
+
+    })
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+
+
 
 
 

@@ -213,7 +213,7 @@ if (shopItems.length) {
             data.append('id', id)
 
             const res = await postData({ url, data })
-            
+
             if (res.errors.length) {
                 res.errors.forEach(error => {
                     alert(error)
@@ -236,4 +236,104 @@ if (shopItems.length) {
 
         })
     });
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+const removeCartBtns = document.querySelectorAll('.item-card__remove');
+
+if (removeCartBtns.length) {
+    removeCartBtns.forEach(removeCartBtn => {
+        removeCartBtn.addEventListener('click', async (e) => {
+            const id = removeCartBtn.getAttribute('data-id')
+            const url = '/cart/remove'
+            const data = new FormData()
+            data.append('id', id)
+
+            const res = await postData({ url, data })
+
+            if (res.errors.length) {
+                res.errors.forEach(error => {
+                    alert(error)
+                });
+
+                throw new Error(`from ${url}, with status`);
+            }
+
+            location.reload();
+        })
+    });
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+const orderForm = document.querySelector('.js-order');
+const orderFormPage = document.querySelector('.shop-page__order');
+const successPage = document.querySelector('.shop-page__popup-end');
+
+if (orderForm) {
+    
+    orderForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // If errors already exist - remove them
+        const errors = document.querySelectorAll('.form_error');
+        if (errors.length) {
+            errors.forEach(elem => {
+                elem.remove();
+            });
+        }
+
+        // Make Post Request
+        const url = '/cart/checkout'
+        const data = new FormData(e.target);
+
+        const res = await postData({ url, data })
+
+        if (Object.keys(res.errors).length === 0) {
+            toggleHidden(successPage, orderFormPage);
+            cartIcon.textContent = 0;
+            orderForm.reset();
+
+        } else {
+
+            for (const key in res.errors) {
+                const error = document.createElement('div');
+                error.classList.add('form_error');
+                error.innerText = res.errors[key];
+                orderForm.appendChild(error);
+            }
+
+        }
+        
+
+    })
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+const cartSection = document.querySelector('.cart');
+const cartBtn = document.querySelector('.cart__btn');
+const pageOrder = document.querySelector('.shop-page__order');
+
+if (cartBtn) {
+    cartBtn.addEventListener('click', (e) => {
+        toggleHidden(pageOrder, cartSection);
+    })
 }

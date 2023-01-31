@@ -30,6 +30,7 @@ class ArrayHelper {
 	}
 
 
+
     public static function htmlChars(array $array) : array {
         $res = [];
 

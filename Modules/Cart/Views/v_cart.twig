@@ -1,0 +1,99 @@
+{# My own markup #}
+
+<main class="page-add">
+	<div class="cart">
+		{% if products|length <= 0 %}
+			<div class="cart__title">Товаров пока что нет</div>
+		{% else %}
+			<div class="cart__title">Корзина товаров</div>
+			<div class="cart__wrapper">
+				{% for product in products %}
+					<div class="cart__item item-card">
+						<div class="item-card__img"><img src="{{ product.image}}" alt=""></div>
+						<div class="item-card__name">{{ product.name }}</div>
+						<div class="item-card__price">Цена:
+							{{ product.price }} $</div>
+						<div class="item-card__qty">Кол.:
+							{{ product.qty }}</div>
+						<button data-id="{{ product.id }}" class="item-card__remove">✕</button>
+					</div>
+				{% endfor %}
+
+			</div>
+			<hr>
+			<div class="cart__total">
+				<div class="cart__sum">Общая сумма: {{ totalSum }} $</div>
+				<div class="cart__qty">Общее количество: {{ totalQty }}</div>
+			</div>
+			<button class="cart__btn">Оформить заказ</button>
+		{% endif %}
+	</div>
+	<section class="shop-page__order" hidden=""> 
+		<div class="shop-page__wrapper">
+			<h2 class="h h--1">Оформление заказа</h2>
+			<form class="custom-form js-order">
+			{# TODO make required #}
+				<fieldset class="custom-form__group">
+					<legend class="custom-form__title">Укажите свои личные данные</legend>
+					<p class="custom-form__info">
+						<span class="req">*</span>
+						поля обязательные для заполнения
+					</p>
+					<div class="custom-form__column">
+						<label class="custom-form__input-wrapper" for="surname">
+							<input id="surname" class="custom-form__input" type="text" name="lastname">
+							<p class="custom-form__input-label">Фамилия
+								<span class="req">*</span>
+							</p>
+						</label>
+						<label class="custom-form__input-wrapper" for="name">
+							<input id="name" class="custom-form__input" type="text" name="firstname">
+							<p class="custom-form__input-label">Имя
+								<span class="req">*</span>
+							</p>
+						</label>
+						<label class="custom-form__input-wrapper" for="thirdName">
+							<input id="thirdName" class="custom-form__input" type="text" name="patronymic">
+							<p class="custom-form__input-label">Отчество</p>
+						</label>
+						<label class="custom-form__input-wrapper" for="phone">
+							<input id="phone" class="custom-form__input" type="tel" name="phone">
+							<p class="custom-form__input-label">Телефон
+								<span class="req">*</span>
+							</p>
+						</label>
+						<label class="custom-form__input-wrapper" for="email">
+							<input id="email" class="custom-form__input" type="email" name="email">
+							<p class="custom-form__input-label">Почта
+								<span class="req">*</span>
+							</p>
+						</label>
+					</div>
+				</fieldset>
+
+
+				<fieldset class="custom-form__group shop-page__pay">
+					<legend class="custom-form__title custom-form__title--radio">Способ оплаты</legend>
+					<input id="cash" class="custom-form__radio" type="radio" name="payment" value="cash">
+					<label for="cash" class="custom-form__radio-label">Наличные</label>
+					<input id="card" class="custom-form__radio" type="radio" name="payment" value="card" checked="">
+					<label for="card" class="custom-form__radio-label">Банковской картой</label>
+				</fieldset>
+				<fieldset class="custom-form__group shop-page__comment">
+					<legend class="custom-form__title custom-form__title--comment">Комментарии к заказу</legend>
+					<textarea class="custom-form__textarea" name="comment"></textarea>
+				</fieldset>
+				<button class="button" type="submit">Отправить заказ</button>
+			</form>
+		</div>
+	</section>
+
+
+	<section class="shop-page__popup-end" hidden="">
+		<div class="shop-page__wrapper shop-page__wrapper--popup-end">
+			<h2 class="h h--1 h--icon shop-page__end-title">Спасибо за заказ!</h2>
+			<p class="shop-page__end-message">Скоро мы с вами свяжемся</p>
+			<a href="{{constant('BASE_URL')}}/catalog" class="button">Продолжить покупки</a>
+		</div>
+	</section>
+</main>

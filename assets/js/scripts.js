@@ -78,24 +78,6 @@ const toggleDelivery = (elem) => {
 	});
 };
 
-const filterWrapper = document.querySelector('.filter__list');
-if (filterWrapper) {
-
-	// const filterList = filterWrapper.querySelectorAll('.filter__list-item input');
-
-	// if (filterList.length) {
-
-	// 	filterList.forEach(filter => {
-
-	// 		filter.addEventListener('click', (e) => {
-	// 			filterList.forEach(el => el.classList.remove('active'));
-	// 			filter.classList.add('active');
-	// 		})
-	
-	// 	});
-	
-	// }
-}
 
 
 

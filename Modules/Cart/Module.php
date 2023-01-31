@@ -11,7 +11,10 @@ class Module implements IModule{
 
 
         $router->addRoutes([
+            ['GET', '/cart',  C::class . "#index"],
             ['POST', '/cart/add',  C::class . "#add"],
+            ['POST', '/cart/remove',  C::class . "#remove"],
+            ['POST', '/cart/checkout',  C::class . "#checkout"],
         ]);
     
 	}

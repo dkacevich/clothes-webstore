@@ -4,7 +4,6 @@ namespace Modules\Catalog\Models;
 
 use Exception;
 use Modules\_base\Model as BaseModel;
-use System\ArrayHelper;
 use System\DB;
 use RedBeanPHP\R;
 use System\Pagination;

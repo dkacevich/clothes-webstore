@@ -1,12 +1,11 @@
-{# TODO required #}
 
 <main class="page-authorization">
   <h1 class="h h--2">Создать аккаунт</h1>
   <form class="custom-form" id='register-form'>
-    <input name="name" class="custom-form__input"  placeholder='Имя'>
-    <input name="login" class="custom-form__input"  placeholder='Логин'>
-    <input name="email" class="custom-form__input"  placeholder='Почта'>
-    <input name="password" class="custom-form__input" placeholder='Пароль'>
+    <input required name="name" class="custom-form__input"  placeholder='Имя'>
+    <input required name="login" class="custom-form__input"  placeholder='Логин'>
+    <input required name="email" class="custom-form__input"  placeholder='Почта'>
+    <input required name="password" class="custom-form__input" placeholder='Пароль'>
     <button class="button" type="submit">Регистрация</button>
   </form>
   <a class='toggle_auth' href="{{ constant("BASE_URL")}}/login">Есть аккаунт? Ввойти</a>

@@ -1,5 +1,0 @@
-Login / Register
-Restricted access
-
-
-Cart count if exeption catching

@@ -8,6 +8,7 @@ use Modules\_base\Controller as BaseController;
 use Modules\Auth\Models\Index as Model;
 use System\DB;
 use System\Exceptions\ExcValidate;
+use System\Session;
 
 class Index extends BaseController{
     public Model $model;
@@ -47,5 +48,31 @@ class Index extends BaseController{
         }
         
         echo json_encode($res);
+    }
+
+    public function register() {
+        $res = [
+            'errors' => [],
+            'message' => ''
+        ];
+
+
+        try {
+            $this->model->register($_POST);
+        } catch (ExcValidate $e) {
+            $bag = $e->getBag();
+            $errors = $bag->firstOfAll();
+            $res['errors'] = $errors;
+        } catch (Exception $e) {
+            $res['errors'][] = $e->getMessage();
+        }
+        
+        echo json_encode($res);
+    }
+
+
+    public function logout() {
+        Session::remove('user');
+        header('location: ' . BASE_URL);
     }
 }

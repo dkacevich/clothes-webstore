@@ -57,4 +57,38 @@ class Index extends Model {
         Session::set('status', $status, 'user');
 
     }
+
+    public function register(array $fields) {
+        $validation = $this->validator->validate($fields, $this->registerRules);
+
+        if ($validation->fails()) {
+            throw new ExcValidate('Validation fails in Add module', $validation->errors());
+        }
+
+        $params = array_map('trim', $fields);
+
+        $user = R::getRow('SELECT * FROM users WHERE login = :login', [':login' => $params['login']]);
+
+        if ($user) {
+            throw new Exception("Sorry this login already taken", 1);
+        }
+
+        $newUser = R::dispense('users');
+        foreach ($params as $key => $value) {
+            if ($key === 'password') {
+                $newUser->$key = password_hash($value, PASSWORD_BCRYPT);
+                continue;
+            }
+
+            $newUser->$key = $value;
+        }
+        R::store($newUser);
+
+        $token = bin2hex(random_bytes(64));
+        $status = UserStatuses::buyer;
+
+        Session::set('token', $token, 'user');
+        Session::set('status', $status, 'user');
+
+    }
 }

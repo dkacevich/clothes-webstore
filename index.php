@@ -18,7 +18,6 @@ use System\Exceptions\Exc500;
 
 
 session_start();
-
 $view = Template::getInstance();
 
 try {

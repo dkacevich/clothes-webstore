@@ -34,12 +34,12 @@
 				<select name="id_category" class="custom-form__select" multiple="multiple">
 					<option hidden="">Название раздела</option>
 					{% for category in categories %}
-						<option value="{{ category.id_category }}">{{ category.name }}</option>
+						<option value="{{ category.id }}">{{ category.name }}</option>
 					{% endfor %}
 				</select>
 			</div>
 			{% for tag in tags %}
-				<input type="checkbox" name="tag[{{tag.id_tag}}]" value="{{tag.id_tag}}" id="{{ tag.label }}" class="custom-form__checkbox">
+				<input type="checkbox" name="tag[{{tag.id}}]" value="{{tag.id}}" id="{{ tag.label }}" class="custom-form__checkbox">
 				<label for="{{ tag.label }}" class="custom-form__checkbox-label">{{ tag.name }}</label>
 			{% endfor %}
 		</fieldset>

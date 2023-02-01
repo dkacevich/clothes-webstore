@@ -18,7 +18,6 @@ use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
 
 session_start();
-
 $baseController = new BaseController;
 
 try {

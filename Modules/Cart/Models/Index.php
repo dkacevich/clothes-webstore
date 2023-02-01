@@ -9,6 +9,7 @@ use System\ArrayHelper;
 use System\DB;
 use System\Exceptions\ExcValidate;
 use RedBeanPHP\R;
+use System\Session;
 
 class Index extends BaseModel {
 
@@ -47,7 +48,24 @@ class Index extends BaseModel {
         }
         $orderId = R::store($order);
 
+       
+        // Mail sending 
+
+        $message = '';
+        $cart = Session::get('cart');
         
+        foreach ($cart as $key => $value) {
+            if (is_int($key)) {
+                $message .= "ID: $value[id], Название: $value[name], Количество: $value[qty] <br>";
+            }
+        }
+        
+        $message .= "<hr><br>";
+        $message .= "Общее количество: $cart[totalQty] <br>";
+        $message .= "Общая цена: $cart[totalSum]";
+        
+        mail('customer@gmail.com', 'order', $message);
+
         // Save order products to separate DB
 
         foreach ($sessions['cart'] as $key => $product) {

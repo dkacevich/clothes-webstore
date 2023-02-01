@@ -73,6 +73,7 @@ class Index extends BaseController{
 
     public function logout() {
         Session::remove('user');
+        Session::remove('cart');
         header('location: ' . BASE_URL);
     }
 }

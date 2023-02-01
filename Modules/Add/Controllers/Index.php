@@ -2,13 +2,14 @@
 
 namespace Modules\Add\Controllers;
 
-use Aws\S3\Exception\S3Exception;
 use Exception;
 use Modules\_base\Controller as BaseController;
 use Modules\Add\Models\Index as Model;
+use Modules\Auth\Models\UserStatuses;
 use System\DB;
 use System\Exceptions\ExcValidate;
 use RedBeanPHP\R;
+use System\Session;
 
 class Index extends BaseController {
     public Model $model;
@@ -21,6 +22,12 @@ class Index extends BaseController {
     }
 
     public function index() {
+       
+
+        if (!Session::get('user') || Session::get('status', 'user') != UserStatuses::admin) {
+            header('location: ' . BASE_URL);
+        }
+
         $this->pageContent['title'] = 'Добавить товар';
         $this->pageContent['content'] = $this->view->render('Add/Views/v_add.twig', [
             'categories' => $this->model->getCategories(),

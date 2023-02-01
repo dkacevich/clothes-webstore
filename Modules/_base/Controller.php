@@ -6,7 +6,7 @@ use System\Template;
 
 class Controller {
     protected Template $view;
-    protected array $pageContent;
+    public array $pageContent;
 
     public function __construct() {
         $this->view = Template::getInstance();

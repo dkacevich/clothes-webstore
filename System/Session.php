@@ -10,7 +10,15 @@ class Session {
         if (!$key) {
             return $_SESSION;
         }
-        return ($subArray ? $_SESSION[$subArray][$key] : $_SESSION[$key]) ?? null ;
+        if (!$subArray && !isset($_SESSION[$key])) {
+            return null;
+        }
+
+        if ($subArray && !isset($_SESSION[$subArray][$key])) {
+            return null;
+        }
+
+        return ($subArray ? $_SESSION[$subArray][$key] : $_SESSION[$key]);
     }
     public static function remove(string $key, string $subArray = null) {
         unset($_SESSION[$key]);

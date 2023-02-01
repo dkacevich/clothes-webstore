@@ -56,6 +56,9 @@ class Index extends Model {
         Session::set('token', $token, 'user');
         Session::set('status', $status, 'user');
 
+        Session::remove('cart');
+
+
     }
 
     public function register(array $fields) {
@@ -89,6 +92,8 @@ class Index extends Model {
 
         Session::set('token', $token, 'user');
         Session::set('status', $status, 'user');
+        
+        Session::remove('cart');
 
     }
 }

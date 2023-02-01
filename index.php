@@ -2,6 +2,7 @@
 
 include_once('config/init.php');
 
+use Modules\_base\Controller as BaseController;
 use System\ModulesDispatcher;
 use System\Template;
 
@@ -16,9 +17,9 @@ use Modules\Auth\Module as Auth;
 use System\Exceptions\Exc404;
 use System\Exceptions\Exc500;
 
-
 session_start();
-$view = Template::getInstance();
+
+$baseController = new BaseController;
 
 try {
     // Import all Modules
@@ -63,19 +64,20 @@ try {
 
 } catch (Exc404 $e) {
     header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
-    echo $view->render('_base/Views/v_main.twig', [
-        'title' => '404 Error',
-        'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
-    ]);
+   
+    $baseController->pageContent['title'] = '404 Error';
+    $baseController->pageContent['content'] = "<h2 class='error'>{$e->getMessage()}</h2>";
+    echo $baseController->render();
 } catch (Exc500 $e) {
-    header($_SERVER["SERVER_PROTOCOL"] . ' 500 System error');
-    echo $view->render('_base/Views/v_main.twig', [
-        'title' => '500 Error',
-        'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
-    ]);
+    header($_SERVER["SERVER_PROTOCOL"] . ' 500 Server Error');
+   
+    $baseController->pageContent['title'] = '500 Server Error';
+    $baseController->pageContent['content'] = "<h2 class='error'>{$e->getMessage()}</h2>";
+    echo $baseController->render();
+   
 } catch (Exception $e) {
-    echo $view->render('_base/Views/v_main.twig', [
-        'title' => 'Error',
-        'content' => "<h2 class='error'>{$e->getMessage()}</h2>"
-    ]);
+    $baseController->pageContent['title'] = 'Exception';
+    $baseController->pageContent['content'] = "<p>{$e->getMessage()}</p>";
+    echo $baseController->render();
+    
 }

@@ -1,0 +1,39 @@
+.auth {
+    @include adaptiveValue("padding-top", 110, 80);
+    text-align: center;
+    &__container {
+
+    }
+    // .auth__title
+    &__title {
+        @include adaptiveValue("font-size", 60, 35);
+		font-weight: 700;
+		margin-bottom: rem(40);
+    }
+    // .auth__form
+    &__form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: rem(20);
+        @include adaptiveValue("max-width", 400, 250);
+        margin: 0px auto;
+    }
+    // .auth__input
+    &__input {
+        @include adaptiveValue("height", 60, 45);
+        padding: rem(10) rem(20);
+        border: 1px solid #000;
+        width: 100%;
+    }
+    // .auth__button
+    &__button {
+        width: 100%;
+        @include adaptiveValue("height", 60, 45);
+    }
+    // .auth__toggle
+    &__toggle {
+        display: block;
+        margin-top: rem(20);
+    }
+}

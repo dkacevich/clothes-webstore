@@ -15,13 +15,9 @@
         display: flex;
         align-items: center;
         gap: rem(50);
-        padding: rem(15) rem(30);
+        padding: rem(15) 0;
         @media (max-width: em(650)) {
-            padding: rem(30);
             gap: rem(20);
-        }
-        @media (min-width: em(400)) {
-            border-radius: rem(20);
         }
         @media (max-width: em(400)) {
             padding: rem(20) rem(10);
@@ -30,6 +26,7 @@
     // .header__logo
     &__logo {
         position: relative;
+        z-index: 6;
         flex: 1 1 auto;
         img {
             @include adaptiveValue("width", 235, 120, 700, 320, 1);

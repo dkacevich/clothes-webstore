@@ -1,0 +1,28 @@
+.main-page {
+    text-align: center;
+    padding: rem(80) 0;
+    font-family: Roboto;
+    // .main-page__title
+    &__title {
+        font-size: rem(40);
+        margin-bottom: rem(20);
+    }
+    // .main-page__subtitle
+    &__subtitle {
+        font-size: rem(25);
+        margin-bottom: rem(50);
+    }
+    // .main-page__image
+    &__image {
+        margin-bottom: rem(50);
+    }
+    // .main-page__sale
+    &__sale {
+        font-size: rem(25);
+        margin-bottom: rem(20);
+    }
+    // .main-page__subsale
+    &__subsale {
+        font-size: rem(25);
+    }
+}

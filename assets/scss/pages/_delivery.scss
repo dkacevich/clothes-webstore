@@ -1,0 +1,46 @@
+.delivery {
+	@include adaptiveValue("padding-top", 110, 50);
+	font-size: rem(20);
+	// .delivery__container
+	&__container {
+	}
+	// .delivery__title
+	&__title {
+		@include adaptiveValue("font-size", 50, 35);
+		font-weight: 700;
+		margin-bottom: rem(40);
+	}
+	// .delivery__desc
+	&__desc {
+		margin-bottom: rem(10);
+		// .delivery__desc_strong
+		&_strong {
+			font-weight: 700;
+		}
+	}
+	// .delivery__info
+	&__info {
+	}
+	// .delivery__variant
+	&__variant {
+		margin-bottom: rem(5);
+	}
+	// .delivery__list
+	&__list {
+		li {
+			margin-bottom: rem(20);
+		}
+	}
+	// .delivery__item-title
+	&__item-title {
+	}
+	// .delivery__item-desc
+	&__item-desc {
+	}
+	// .delivery__button
+	&__button {
+		margin-top: rem(20);
+		display: inline-flex;
+		padding: rem(20);
+	}
+}

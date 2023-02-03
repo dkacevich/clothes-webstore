@@ -1,6 +1,6 @@
 .promo {
     color: #fff;
-    @media (min-width:em(992)){
+    @media (min-width: em(992)) {
         margin-top: rem(20);
     }
     // .promo__container
@@ -35,14 +35,14 @@
 
 .catalog {
     margin-top: rem(70);
-    @media (max-width: em(992)){
-          margin-top: rem(30);
+    @media (max-width: em(992)) {
+        margin-top: rem(30);
     }
     // .catalog__container
     &__container {
         display: grid;
         gap: rem(20);
-        @media (min-width: em(992)){
+        @media (min-width: em(992)) {
             gap: rem(60);
             grid-template-columns: 300px 1fr;
         }
@@ -90,7 +90,6 @@
     }
     // .filter__range
     &__range {
-        
     }
     // .filter__checkbox
     &__checkbox {
@@ -102,7 +101,6 @@
 }
 
 .range {
-    
     // .range__info
     &__info {
     }
@@ -129,7 +127,8 @@
         border-radius: 50%;
         box-shadow: none;
         cursor: pointer;
-        &::before,&::after{
+        &::before,
+        &::after {
             display: none;
         }
     }
@@ -138,7 +137,6 @@
         height: 10px;
     }
 
-
     input {
         display: none;
     }
@@ -146,61 +144,57 @@
 
 .checkbox {
     position: relative;
-	&:not(:last-child) {
-		margin-bottom: rem(5);
-	}
-	// .checkbox__input
-	&__input {
-		position: absolute;
-		width: 0;
-		height: 0;
-		opacity: 0;
-		&:focus + .checkbox__label:before {
-			box-shadow: 0 0 5px rgba(0, 0, 0, 0.33);
-		}
-		&:checked + .checkbox__label:before {
-			filter: grayscale(0);
-		}
-		&:checked +  .checkbox__label {
+    &:not(:last-child) {
+        margin-bottom: rem(5);
+    }
+    // .checkbox__input
+    &__input {
+        position: absolute;
+        width: 0;
+        height: 0;
+        opacity: 0;
+        &:focus + .checkbox__label:before {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.33);
+        }
+        &:checked + .checkbox__label:before {
+            filter: grayscale(0);
+        }
+        &:checked + .checkbox__label {
             color: $redColor;
         }
-	}
-    
+    }
+
     // .checkbox__label
     &__label {
         cursor: pointer;
-		display: inline-flex;
-		position: relative;
+        display: inline-flex;
+        position: relative;
         display: flex;
         align-items: center;
         gap: rem(10);
-        &::before{
-            content:'';
+        &::before {
+            content: "";
             width: 20px;
             height: 20px;
-            background: url('../img/done.svg') center center / cover no-repeat;
+            background: url("../img/done.svg") center center / cover no-repeat;
             filter: grayscale(100%);
             transition: all 0.3s ease 0s;
         }
-        
     }
     // .checkbox__text
     &__text {
     }
 }
 
-
-
-
 .list-catalog {
     &__select-wrapper {
         position: relative;
-        &::after{
+        &::after {
             content: "▼";
             font-size: rem(14);
             position: absolute;
             top: 50%;
-            transform: translate(0,-50%);
+            transform: translate(0, -50%);
             right: 10px;
             cursor: not-allowed;
         }
@@ -213,7 +207,7 @@
         background: rgba(213, 213, 213, 0.578);
         padding: rem(10);
         border-radius: rem(10);
-        @media (max-width: em(420)){
+        @media (max-width: em(420)) {
             flex-direction: column;
             gap: rem(15);
         }
@@ -235,13 +229,13 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: rem(25);
-        @media (max-width: em(1250)){
+        @media (max-width: em(1250)) {
             grid-template-columns: repeat(3, 1fr);
         }
-        @media (max-width: em(600)){
+        @media (max-width: em(600)) {
             grid-template-columns: repeat(2, 1fr);
         }
-        @media (max-width: em(350)){
+        @media (max-width: em(350)) {
             grid-template-columns: repeat(1, 1fr);
         }
     }
@@ -255,8 +249,39 @@
     flex-direction: column;
     text-align: center;
     box-shadow: 0 0 25px rgba(186, 186, 186, 0.3);
+    cursor: pointer;
+    @media (any-hover: hover) {
+        &:hover {
+            > .item-catalog__image {
+                &::before {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+    }
     &__image {
+        position: relative;
+
         overflow: hidden;
+        &::before {
+            content: "Купить";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: rem(23);
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.595);
+            transition: all 0.3s ease 0s;
+            opacity: 0;
+            visibility: hidden;
+        }
         img {
             width: 100%;
             height: 100%;
@@ -293,9 +318,9 @@
         background: $grayColor;
         color: rgb(52, 52, 52);
         border-radius: 50%;
-        &._active{
+        &._active {
             background: rgb(52, 52, 52);
-            color:  $grayColor;
+            color: $grayColor;
         }
     }
 }

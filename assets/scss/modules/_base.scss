@@ -1,0 +1,13 @@
+.button {
+    background: $redColor;
+    color: #fff;
+    display: block;
+    padding: rem(10) rem(20);
+}
+
+
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+}

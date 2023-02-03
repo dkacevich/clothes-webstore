@@ -1,0 +1,39 @@
+.popup-end {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: $grayColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    // .popup-end__wrapper
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: rem(30);
+    }
+    &__icon {
+        width: 70px;
+        height: 70px;
+        img {
+            width: 100%;
+        }
+    }
+    // .popup-end__title
+    &__title {
+        @include adaptiveValue("font-size", 45, 25);
+        font-weight: 700;
+    }
+    // .popup-end__message
+    &__message {
+        @include adaptiveValue("font-size", 35, 20);
+    }
+
+    .button {
+        @include adaptiveValue("font-size", 25, 18);
+    }
+}
